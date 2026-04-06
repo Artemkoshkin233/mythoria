@@ -1,0 +1,1317 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MYTHORIA v2 — Форум Фанфиков</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,600&family=Cinzel:wght@400;500;600;700;900&family=Raleway:wght@200;300;400;500;600&family=UnifrakturMaguntia&family=IM+Fell+English:ital@0;1&display=swap" rel="stylesheet">
+<style>
+:root{
+  --ink:#09070d;--parchment:#f4ead8;--parchment2:#e8d9bf;
+  --gold:#c8a84b;--gold2:#e8c96a;--gold3:rgba(200,168,75,0.12);
+  --crimson:#7d1728;--crimson2:#b52840;
+  --teal:#145560;--teal2:#1e7d8e;
+  --purple:#2d1248;--purple2:#5a25a0;
+  --smoke:rgba(9,7,13,0.88);
+  --glass:rgba(244,234,216,0.05);
+  --border:rgba(200,168,75,0.22);
+  --border2:rgba(200,168,75,0.08);
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{background:var(--ink);color:var(--parchment);font-family:'Cormorant Garamond',serif;font-size:17px;line-height:1.75;overflow-x:hidden;min-height:100vh}
+
+body::after{content:'';position:fixed;inset:0;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.035'/%3E%3C/svg%3E");pointer-events:none;z-index:9998;opacity:.7}
+
+.bg{position:fixed;inset:0;background:radial-gradient(ellipse 55% 50% at 15% 15%,rgba(45,18,72,.6) 0%,transparent 60%),radial-gradient(ellipse 45% 55% at 85% 85%,rgba(125,23,40,.45) 0%,transparent 55%),radial-gradient(ellipse 65% 35% at 50% 100%,rgba(20,85,96,.3) 0%,transparent 60%),#09070d;z-index:-2}
+
+.ptcls{position:fixed;inset:0;z-index:-1;pointer-events:none;overflow:hidden}
+.ptcl{position:absolute;border-radius:50%;opacity:0;animation:fup linear infinite}
+@keyframes fup{0%{transform:translateY(100vh) translateX(0);opacity:0}10%{opacity:.7}90%{opacity:.2}100%{transform:translateY(-8vh) translateX(var(--dx));opacity:0}}
+
+::-webkit-scrollbar{width:5px}
+::-webkit-scrollbar-track{background:var(--ink)}
+::-webkit-scrollbar-thumb{background:linear-gradient(var(--gold),var(--crimson));border-radius:3px}
+
+header{position:sticky;top:0;z-index:500;display:flex;align-items:center;justify-content:space-between;padding:0 36px;height:68px;background:rgba(9,7,13,.94);backdrop-filter:blur(24px);border-bottom:1px solid var(--border)}
+.logo{display:flex;align-items:center;gap:14px;cursor:pointer}
+.logo-hex{width:40px;height:40px;background:linear-gradient(135deg,var(--gold),var(--crimson2));clip-path:polygon(50% 0%,100% 25%,100% 75%,50% 100%,0% 75%,0% 25%);display:flex;align-items:center;justify-content:center;font-size:17px;animation:hpulse 4s ease-in-out infinite}
+@keyframes hpulse{0%,100%{filter:drop-shadow(0 0 6px rgba(200,168,75,.5))}50%{filter:drop-shadow(0 0 18px rgba(200,168,75,.9))}}
+.logo-t{font-family:'Cinzel',serif;font-size:20px;font-weight:700;letter-spacing:5px;background:linear-gradient(90deg,var(--gold),var(--parchment),var(--gold));background-size:200%;-webkit-background-clip:text;-webkit-text-fill-color:transparent;animation:shimmer 4s linear infinite}
+@keyframes shimmer{0%{background-position:0%}100%{background-position:200%}}
+.logo-s{font-size:9px;letter-spacing:4px;color:rgba(200,168,75,.55);font-family:'Raleway',sans-serif;font-weight:300;text-transform:uppercase;margin-top:-3px}
+
+nav{display:flex;gap:2px}
+.nb{background:none;border:none;cursor:pointer;font-family:'Cinzel',serif;font-size:10px;letter-spacing:2.5px;color:rgba(244,234,216,.55);padding:7px 14px;border-radius:4px;transition:all .3s;text-transform:uppercase}
+.nb:hover,.nb.act{color:var(--gold);background:rgba(200,168,75,.08)}
+
+.hact{display:flex;gap:10px;align-items:center}
+.dot-online{width:7px;height:7px;background:#4ade80;border-radius:50%;box-shadow:0 0 8px rgba(74,222,128,.6);animation:blink 2s infinite}
+@keyframes blink{0%,100%{opacity:1}50%{opacity:.4}}
+.online-ct{font-size:11px;color:rgba(200,168,75,.6);font-family:'Raleway',sans-serif;letter-spacing:2px}
+
+.btn-p{background:linear-gradient(135deg,var(--gold),var(--crimson));border:none;cursor:pointer;font-family:'Cinzel',serif;font-size:10px;letter-spacing:3px;color:var(--ink);padding:9px 22px;border-radius:3px;font-weight:600;transition:all .3s;text-transform:uppercase}
+.btn-p:hover{transform:translateY(-1px);box-shadow:0 7px 22px rgba(200,168,75,.32)}
+.btn-g{background:var(--glass);border:1px solid var(--border);cursor:pointer;font-family:'Cinzel',serif;font-size:10px;letter-spacing:3px;color:var(--parchment);padding:8px 18px;border-radius:3px;transition:all .3s;text-transform:uppercase}
+.btn-g:hover{border-color:var(--gold);color:var(--gold)}
+
+.container{max-width:1380px;margin:0 auto;padding:0 36px}
+.page{display:none;animation:pin .45s ease}
+.page.act{display:block}
+@keyframes pin{from{opacity:0;transform:translateY(18px)}to{opacity:1;transform:translateY(0)}}
+
+.hero{position:relative;padding:90px 36px 70px;text-align:center;overflow:hidden}
+.hero::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse 75% 55% at 50% 50%,rgba(200,168,75,.05) 0%,transparent 70%)}
+.hero-back{font-family:'UnifrakturMaguntia',cursive;font-size:110px;line-height:1;background:linear-gradient(180deg,rgba(200,168,75,.12) 0%,transparent 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;position:absolute;top:8px;left:50%;transform:translateX(-50%);pointer-events:none;white-space:nowrap}
+.hero-ey{font-family:'Raleway',sans-serif;font-size:10px;letter-spacing:8px;color:var(--gold);text-transform:uppercase;margin-bottom:22px;opacity:0;animation:fdu .8s .2s forwards}
+.hero-h{font-family:'Cinzel',serif;font-size:clamp(44px,6.5vw,88px);font-weight:900;line-height:1.06;letter-spacing:4px;background:linear-gradient(180deg,var(--parchment) 0%,var(--gold) 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;margin-bottom:22px;opacity:0;animation:fdu .8s .4s forwards}
+.hero-d{font-size:19px;font-style:italic;color:rgba(244,234,216,.6);max-width:580px;margin:0 auto 44px;opacity:0;animation:fdu .8s .6s forwards}
+.hero-acts{display:flex;gap:14px;justify-content:center;flex-wrap:wrap;opacity:0;animation:fdu .8s .8s forwards}
+@keyframes fdu{from{opacity:0;transform:translateY(28px)}to{opacity:1;transform:translateY(0)}}
+
+.stats{display:grid;grid-template-columns:repeat(5,1fr);border:1px solid var(--border);border-radius:5px;overflow:hidden;margin:36px 0;background:var(--glass);backdrop-filter:blur(10px)}
+.stat{padding:24px;text-align:center;border-right:1px solid var(--border);transition:background .3s}
+.stat:last-child{border-right:none}
+.stat:hover{background:rgba(200,168,75,.05)}
+.stat-n{font-family:'Cinzel',serif;font-size:32px;font-weight:700;color:var(--gold);line-height:1;margin-bottom:5px}
+.stat-l{font-size:11px;letter-spacing:3px;color:rgba(244,234,216,.4);font-family:'Raleway',sans-serif;text-transform:uppercase}
+
+.sh{display:flex;align-items:center;justify-content:space-between;margin-bottom:28px;padding-bottom:14px;border-bottom:1px solid var(--border)}
+.st{font-family:'Cinzel',serif;font-size:13px;letter-spacing:5px;text-transform:uppercase;color:var(--gold);display:flex;align-items:center;gap:10px}
+.st::before{content:'';width:22px;height:1px;background:var(--gold)}
+
+.cat-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:14px;margin-bottom:52px}
+.cc{position:relative;padding:26px;border:1px solid var(--border);border-radius:6px;background:var(--glass);backdrop-filter:blur(10px);cursor:pointer;transition:all .4s cubic-bezier(.23,1,.32,1);overflow:hidden}
+.cc::before{content:'';position:absolute;inset:0;background:linear-gradient(135deg,var(--ch,rgba(200,168,75,.08)) 0%,transparent 60%);opacity:0;transition:opacity .4s}
+.cc:hover{transform:translateY(-3px);border-color:var(--gold)}
+.cc:hover::before{opacity:1}
+.cc-glow{position:absolute;top:-18px;right:-18px;width:70px;height:70px;background:radial-gradient(circle,var(--cg,rgba(200,168,75,.28)) 0%,transparent 70%);opacity:0;transition:opacity .4s}
+.cc:hover .cc-glow{opacity:1}
+.cc-ic{font-size:30px;margin-bottom:14px;display:block}
+.cc-nm{font-family:'Cinzel',serif;font-size:15px;font-weight:600;color:var(--parchment);margin-bottom:7px;letter-spacing:1px}
+.cc-ds{font-size:13px;color:rgba(244,234,216,.48);line-height:1.6;margin-bottom:14px;font-style:italic}
+.cc-mt{display:flex;gap:14px;font-family:'Raleway',sans-serif;font-size:10px;letter-spacing:2px;color:rgba(200,168,75,.6);text-transform:uppercase}
+
+.posts{display:flex;flex-direction:column;gap:2px;margin-bottom:52px}
+.pr{display:grid;grid-template-columns:1fr auto auto;gap:20px;align-items:center;padding:18px 24px;border:1px solid var(--border2);border-radius:5px;background:var(--glass);cursor:pointer;transition:all .3s;position:relative;overflow:hidden}
+.pr::before{content:'';position:absolute;left:0;top:0;bottom:0;width:3px;background:linear-gradient(180deg,var(--gold),var(--crimson));opacity:0;transition:opacity .3s}
+.pr:hover{background:rgba(200,168,75,.04);border-color:rgba(200,168,75,.28);padding-left:28px}
+.pr:hover::before{opacity:1}
+.ptag{display:inline-block;font-size:9px;letter-spacing:3px;font-family:'Raleway',sans-serif;text-transform:uppercase;padding:3px 10px;border-radius:20px;margin-bottom:7px}
+.t-ff{background:rgba(125,23,40,.3);color:#e05070;border:1px solid rgba(125,23,40,.5)}
+.t-qt{background:rgba(20,85,96,.3);color:#2ab8cc;border:1px solid rgba(20,85,96,.5)}
+.t-rv{background:rgba(45,18,72,.3);color:#9b5fd4;border:1px solid rgba(45,18,72,.5)}
+.t-ds{background:rgba(200,168,75,.12);color:var(--gold2);border:1px solid rgba(200,168,75,.28)}
+.t-po{background:rgba(60,20,80,.3);color:#cc88ee;border:1px solid rgba(60,20,80,.5)}
+.t-rp{background:rgba(20,60,30,.3);color:#55cc88;border:1px solid rgba(20,60,30,.5)}
+.pr-title{font-family:'Cormorant Garamond',serif;font-size:17px;font-weight:500;color:var(--parchment);line-height:1.3;margin-bottom:5px}
+.pr-meta{font-size:12px;color:rgba(244,234,216,.38);font-family:'Raleway',sans-serif;font-weight:300}
+.pr-auth{color:rgba(200,168,75,.65)}
+.pr-stats{text-align:right;font-family:'Raleway',sans-serif;font-size:11px;color:rgba(244,234,216,.35);letter-spacing:1px;min-width:70px}
+.pr-rep{font-family:'Cinzel',serif;font-size:20px;color:var(--gold);font-weight:600;line-height:1}
+.pr-hot{color:#e05070;font-size:11px;margin-left:3px}
+.stars{color:var(--gold);letter-spacing:1px}
+
+.feat-grid{display:grid;grid-template-columns:2fr 1fr;gap:18px;margin-bottom:52px}
+.feat-main{position:relative;padding:44px;border:1px solid var(--border);border-radius:7px;background:linear-gradient(135deg,rgba(125,23,40,.14) 0%,rgba(45,18,72,.14) 100%);overflow:hidden;cursor:pointer;transition:border-color .3s}
+.feat-main:hover{border-color:var(--gold)}
+.feat-main::after{content:'"';position:absolute;top:-18px;right:16px;font-family:'Cormorant Garamond',serif;font-size:190px;line-height:1;color:rgba(200,168,75,.04);pointer-events:none}
+.feat-ey{font-family:'Raleway',sans-serif;font-size:9px;letter-spacing:5px;color:var(--gold);text-transform:uppercase;margin-bottom:14px}
+.feat-tit{font-family:'Cormorant Garamond',serif;font-size:30px;font-weight:600;line-height:1.3;margin-bottom:18px;font-style:italic}
+.feat-ex{font-size:15px;color:rgba(244,234,216,.62);line-height:1.85;margin-bottom:26px;font-style:italic}
+.feat-auth{display:flex;align-items:center;gap:13px}
+.av{width:38px;height:38px;border-radius:50%;border:2px solid var(--gold);display:flex;align-items:center;justify-content:center;font-size:15px;background:linear-gradient(135deg,rgba(200,168,75,.18),rgba(125,23,40,.18));flex-shrink:0}
+.an{font-weight:600;color:var(--parchment);font-size:14px}
+.ar{font-size:11px;color:var(--gold);letter-spacing:2px;font-family:'Raleway',sans-serif;text-transform:uppercase}
+.feat-side{display:flex;flex-direction:column;gap:14px}
+.mc{padding:22px;border:1px solid var(--border);border-radius:5px;background:var(--glass);cursor:pointer;transition:all .3s;flex:1}
+.mc:hover{border-color:var(--gold);transform:translateX(4px)}
+.mc-l{font-size:9px;letter-spacing:4px;color:var(--gold);font-family:'Raleway',sans-serif;text-transform:uppercase;margin-bottom:8px}
+.mc-t{font-family:'Cormorant Garamond',serif;font-size:16px;font-style:italic;line-height:1.4;color:var(--parchment)}
+
+.search-row{display:flex;gap:12px;margin-bottom:28px}
+.search-inp{flex:1;background:rgba(244,234,216,.04);border:1px solid var(--border);border-radius:4px;color:var(--parchment);font-family:'Cormorant Garamond',serif;font-size:16px;padding:12px 18px;outline:none;transition:border-color .3s}
+.search-inp:focus{border-color:var(--gold)}
+.search-inp::placeholder{color:rgba(244,234,216,.28);font-style:italic}
+.sort-sel{background:rgba(244,234,216,.04);border:1px solid var(--border);border-radius:4px;color:rgba(244,234,216,.7);font-family:'Raleway',sans-serif;font-size:11px;padding:12px 16px;outline:none;cursor:pointer;letter-spacing:1px}
+.sort-sel option{background:#150f20}
+
+.pagination{display:flex;gap:8px;justify-content:center;margin:40px 0}
+.pg-btn{width:38px;height:38px;display:flex;align-items:center;justify-content:center;border:1px solid var(--border);border-radius:4px;background:var(--glass);color:rgba(244,234,216,.6);font-family:'Cinzel',serif;font-size:12px;cursor:pointer;transition:all .3s}
+.pg-btn:hover,.pg-btn.cur{border-color:var(--gold);color:var(--gold);background:rgba(200,168,75,.08)}
+
+.form-wrap{max-width:880px;margin:52px auto;padding:0 36px}
+.form-card{border:1px solid var(--border);border-radius:8px;overflow:hidden;background:rgba(9,7,13,.65);backdrop-filter:blur(20px)}
+.form-hd{padding:30px 38px;border-bottom:1px solid var(--border);background:linear-gradient(135deg,rgba(45,18,72,.3) 0%,rgba(125,23,40,.2) 100%)}
+.form-ht{font-family:'Cinzel',serif;font-size:18px;font-weight:600;letter-spacing:4px;text-transform:uppercase;color:var(--gold);margin-bottom:7px}
+.form-hs{font-size:13px;color:rgba(244,234,216,.48);font-style:italic}
+.form-bd{padding:38px}
+.fg{margin-bottom:26px}
+.fl{display:block;font-family:'Raleway',sans-serif;font-size:10px;letter-spacing:4px;text-transform:uppercase;color:var(--gold);margin-bottom:9px}
+.fi,.fsl,.fta{width:100%;background:rgba(244,234,216,.04);border:1px solid rgba(200,168,75,.18);border-radius:4px;color:var(--parchment);font-family:'Cormorant Garamond',serif;font-size:16px;padding:13px 17px;transition:all .3s;outline:none}
+.fi:focus,.fsl:focus,.fta:focus{border-color:var(--gold);background:rgba(200,168,75,.055);box-shadow:0 0 0 3px rgba(200,168,75,.07)}
+.fta{min-height:280px;resize:vertical;line-height:1.85}
+.fsl option{background:#120d1e}
+.pills{display:flex;flex-wrap:wrap;gap:9px}
+.pill{padding:7px 18px;border-radius:30px;border:1px solid rgba(200,168,75,.22);background:transparent;color:rgba(244,234,216,.55);font-family:'Raleway',sans-serif;font-size:11px;letter-spacing:2px;cursor:pointer;transition:all .3s;text-transform:uppercase}
+.pill.sel,.pill:hover{border-color:var(--gold);background:rgba(200,168,75,.13);color:var(--gold)}
+.form-ft{display:flex;gap:12px;justify-content:flex-end;padding:26px 38px;border-top:1px solid var(--border);background:rgba(244,234,216,.018)}
+
+.ai-page{padding:52px 36px}
+.ai-wrap{max-width:920px;margin:0 auto}
+.ai-hd{text-align:center;margin-bottom:52px}
+.ai-ht{font-family:'Cinzel',serif;font-size:44px;font-weight:700;background:linear-gradient(135deg,var(--gold),var(--crimson2),var(--purple2));-webkit-background-clip:text;-webkit-text-fill-color:transparent;margin-bottom:14px;letter-spacing:4px}
+.ai-hs{font-size:17px;color:rgba(244,234,216,.52);font-style:italic;margin-bottom:36px}
+
+.ai-tabs{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin-bottom:36px}
+.ai-tab{padding:9px 22px;border-radius:4px;border:1px solid rgba(200,168,75,.28);background:transparent;color:rgba(244,234,216,.55);font-family:'Cinzel',serif;font-size:11px;letter-spacing:3px;cursor:pointer;transition:all .3s;text-transform:uppercase}
+.ai-tab:hover,.ai-tab.act{border-color:var(--gold);background:rgba(200,168,75,.1);color:var(--gold)}
+
+.gen-panel{border:1px solid var(--border);border-radius:8px;overflow:hidden;background:rgba(9,7,13,.7);backdrop-filter:blur(20px);margin-bottom:28px}
+.gen-header{padding:22px 30px;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:14px;background:linear-gradient(135deg,rgba(45,18,72,.3),rgba(125,23,40,.2))}
+.gen-icon{font-size:24px}
+.gen-label{font-family:'Cinzel',serif;font-size:13px;letter-spacing:4px;text-transform:uppercase;color:var(--gold)}
+.gen-body{padding:30px}
+.gen-row{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:16px}
+.gen-btn{width:100%;padding:14px;background:linear-gradient(135deg,var(--gold),var(--crimson));border:none;border-radius:4px;color:var(--ink);font-family:'Cinzel',serif;font-size:12px;letter-spacing:3px;font-weight:700;cursor:pointer;transition:all .3s;text-transform:uppercase;margin-top:8px}
+.gen-btn:hover{transform:translateY(-1px);box-shadow:0 8px 24px rgba(200,168,75,.3)}
+.gen-btn:disabled{opacity:.5;cursor:not-allowed;transform:none}
+
+.gen-output{border:1px solid var(--border);border-radius:6px;background:rgba(244,234,216,.025);padding:28px;min-height:120px;font-family:'Cormorant Garamond',serif;font-size:17px;line-height:1.85;color:rgba(244,234,216,.82);font-style:italic;position:relative;display:none}
+.gen-output.show{display:block;animation:pin .4s ease}
+.gen-output::before{content:'"';position:absolute;top:-10px;left:14px;font-size:80px;color:rgba(200,168,75,.08);font-family:'Cormorant Garamond',serif;line-height:1}
+.gen-copy{position:absolute;top:12px;right:12px;background:var(--glass);border:1px solid var(--border);border-radius:3px;color:rgba(200,168,75,.6);font-size:11px;font-family:'Raleway',sans-serif;letter-spacing:2px;padding:5px 12px;cursor:pointer;transition:all .3s;text-transform:uppercase}
+.gen-copy:hover{color:var(--gold);border-color:var(--gold)}
+.gen-publish-hint{font-family:'Raleway',sans-serif;font-size:11px;letter-spacing:2px;color:rgba(200,168,75,.5);text-align:center;margin-top:10px;text-transform:uppercase}
+
+.ai-chat{border:1px solid var(--border);border-radius:8px;overflow:hidden;background:rgba(9,7,13,.7);backdrop-filter:blur(20px)}
+.ai-msgs{min-height:380px;max-height:520px;overflow-y:auto;padding:28px;display:flex;flex-direction:column;gap:20px}
+.ai-welcome{text-align:center;padding:55px 20px;color:rgba(244,234,216,.38)}
+.ai-wi{font-size:44px;margin-bottom:14px}
+.ai-wt{font-family:'Cormorant Garamond',serif;font-size:17px;font-style:italic;line-height:1.85}
+.msg{display:flex;gap:13px;align-items:flex-start;animation:pin .4s ease}
+.msg.usr{flex-direction:row-reverse}
+.msg-av{width:36px;height:36px;border-radius:50%;border:2px solid var(--border);display:flex;align-items:center;justify-content:center;font-size:16px;flex-shrink:0}
+.msg.usr .msg-av{background:linear-gradient(135deg,var(--crimson),var(--purple));border-color:var(--crimson2)}
+.msg.ai .msg-av{background:linear-gradient(135deg,var(--teal),var(--purple));border-color:var(--teal2)}
+.msg-b{max-width:74%;padding:14px 18px;border-radius:5px;font-size:15px;line-height:1.72}
+.msg.usr .msg-b{background:rgba(125,23,40,.22);border:1px solid rgba(125,23,40,.38);border-top-right-radius:2px;color:var(--parchment)}
+.msg.ai .msg-b{background:rgba(20,85,96,.14);border:1px solid rgba(20,85,96,.28);border-top-left-radius:2px;color:var(--parchment);font-style:italic}
+.msg-who{font-family:'Raleway',sans-serif;font-size:9px;letter-spacing:3px;color:var(--gold);margin-bottom:5px;text-transform:uppercase}
+.typing{display:flex;gap:4px;align-items:center;padding:3px 0}
+.td{width:6px;height:6px;border-radius:50%;background:var(--teal2);animation:tp 1.4s infinite}
+.td:nth-child(2){animation-delay:.2s}
+.td:nth-child(3){animation-delay:.4s}
+@keyframes tp{0%,60%,100%{opacity:.3;transform:scale(.8)}30%{opacity:1;transform:scale(1)}}
+.ai-ia{padding:22px 28px;border-top:1px solid var(--border);background:rgba(244,234,216,.018)}
+.ai-kr{display:flex;gap:10px;margin-bottom:14px;align-items:center}
+.ai-ki{flex:1;background:rgba(244,234,216,.04);border:1px solid rgba(200,168,75,.14);border-radius:4px;color:rgba(244,234,216,.58);font-family:'Raleway',sans-serif;font-size:11px;padding:9px 13px;outline:none;transition:border-color .3s;letter-spacing:1px}
+.ai-ki:focus{border-color:var(--gold);color:var(--parchment)}
+.ai-kl{font-family:'Raleway',sans-serif;font-size:9px;letter-spacing:3px;color:rgba(200,168,75,.45);text-transform:uppercase;white-space:nowrap}
+.ai-ir{display:flex;gap:10px;align-items:flex-end}
+.ai-ta{flex:1;background:rgba(244,234,216,.04);border:1px solid rgba(200,168,75,.18);border-radius:4px;color:var(--parchment);font-family:'Cormorant Garamond',serif;font-size:16px;padding:13px 17px;outline:none;resize:none;min-height:50px;max-height:130px;transition:border-color .3s;line-height:1.5}
+.ai-ta:focus{border-color:var(--gold)}
+.ai-send{width:50px;height:50px;background:linear-gradient(135deg,var(--gold),var(--crimson));border:none;border-radius:4px;cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:19px;transition:all .3s;flex-shrink:0}
+.ai-send:hover{transform:scale(1.05);box-shadow:0 5px 18px rgba(200,168,75,.28)}
+.ai-send:disabled{opacity:.5;cursor:not-allowed;transform:none}
+.chips{display:flex;flex-wrap:wrap;gap:7px;margin-top:14px}
+.chip{padding:5px 13px;border-radius:20px;border:1px solid rgba(200,168,75,.18);background:transparent;color:rgba(244,234,216,.48);font-size:12px;font-family:'Cormorant Garamond',serif;font-style:italic;cursor:pointer;transition:all .3s}
+.chip:hover{border-color:var(--gold);color:var(--gold);background:rgba(200,168,75,.05)}
+
+.auth-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:16px}
+.auth-card{padding:26px;border:1px solid var(--border);border-radius:6px;background:var(--glass);backdrop-filter:blur(10px);transition:all .3s;cursor:default}
+.auth-card:hover{border-color:var(--gold);transform:translateY(-2px)}
+.auth-top{display:flex;align-items:center;gap:14px;margin-bottom:16px}
+.auth-rank{font-family:'Cinzel',serif;font-size:26px;font-weight:700;min-width:36px;text-align:center}
+.auth-info .an{font-size:16px;margin-bottom:3px}
+.auth-badges{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:14px}
+.badge{font-size:9px;letter-spacing:2px;font-family:'Raleway',sans-serif;text-transform:uppercase;padding:3px 9px;border-radius:12px;border:1px solid;color:var(--gold);border-color:rgba(200,168,75,.3);background:rgba(200,168,75,.07)}
+.auth-stats{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;text-align:center;border-top:1px solid var(--border);padding-top:14px}
+.as-n{font-family:'Cinzel',serif;font-size:18px;color:var(--gold);font-weight:600}
+.as-l{font-size:9px;letter-spacing:2px;color:rgba(244,234,216,.35);font-family:'Raleway',sans-serif;text-transform:uppercase}
+
+.modal-ov{display:none;position:fixed;inset:0;background:rgba(9,7,13,.88);backdrop-filter:blur(9px);z-index:800;align-items:center;justify-content:center}
+.modal-ov.open{display:flex;animation:mfade .3s ease}
+@keyframes mfade{from{opacity:0}to{opacity:1}}
+.modal{background:linear-gradient(135deg,#120d1c,#0e0818);border:1px solid var(--border);border-radius:8px;width:92%;max-width:720px;max-height:88vh;overflow-y:auto;animation:mslide .38s cubic-bezier(.23,1,.32,1)}
+@keyframes mslide{from{transform:translateY(36px);opacity:0}to{transform:translateY(0);opacity:1}}
+.m-hd{padding:28px 36px;border-bottom:1px solid var(--border);display:flex;align-items:flex-start;justify-content:space-between}
+.m-tit{font-family:'Cinzel',serif;font-size:16px;font-weight:600;letter-spacing:3px;color:var(--gold)}
+.m-cls{background:none;border:none;color:rgba(244,234,216,.38);font-size:22px;cursor:pointer;transition:color .3s;line-height:1;padding:0;margin-top:-3px}
+.m-cls:hover{color:var(--parchment)}
+.m-bd{padding:36px}
+.m-ptit{font-family:'Cormorant Garamond',serif;font-size:26px;font-weight:600;font-style:italic;line-height:1.4;margin-bottom:18px}
+.m-meta{display:flex;align-items:center;gap:18px;margin-bottom:28px;padding-bottom:22px;border-bottom:1px solid var(--border)}
+.m-txt{font-size:16px;line-height:1.95;color:rgba(244,234,216,.78)}
+.m-txt p{margin-bottom:1.2em}
+.m-txt p:first-of-type::first-letter{font-family:'UnifrakturMaguntia',cursive;font-size:66px;float:left;line-height:.88;margin-right:7px;margin-top:4px;color:var(--gold)}
+.m-actions{display:flex;gap:10px;margin-top:24px;padding-top:22px;border-top:1px solid var(--border)}
+
+.comments{margin-top:22px;padding-top:22px;border-top:1px solid var(--border)}
+.cmt-h{font-family:'Cinzel',serif;font-size:12px;letter-spacing:4px;color:var(--gold);margin-bottom:18px;text-transform:uppercase}
+.cmt{display:flex;gap:12px;margin-bottom:16px}
+.cmt-b{flex:1;background:rgba(244,234,216,.03);border:1px solid var(--border2);border-radius:4px;padding:14px 18px}
+.cmt-who{font-size:11px;font-family:'Raleway',sans-serif;letter-spacing:2px;color:var(--gold);text-transform:uppercase;margin-bottom:6px}
+.cmt-txt{font-size:14px;color:rgba(244,234,216,.65);line-height:1.65}
+.cmt-inp-row{display:flex;gap:10px;margin-top:14px}
+.cmt-inp{flex:1;background:rgba(244,234,216,.03);border:1px solid var(--border);border-radius:4px;color:var(--parchment);font-family:'Cormorant Garamond',serif;font-size:15px;padding:11px 15px;outline:none;transition:border-color .3s}
+.cmt-inp:focus{border-color:var(--gold)}
+
+.toast{position:fixed;bottom:28px;right:28px;background:linear-gradient(135deg,var(--gold),var(--crimson));color:var(--ink);font-family:'Cinzel',serif;font-size:11px;letter-spacing:2px;padding:13px 22px;border-radius:4px;z-index:2000;transform:translateY(70px);opacity:0;transition:all .4s cubic-bezier(.23,1,.32,1)}
+.toast.show{transform:translateY(0);opacity:1}
+
+/* SERVER STATUS BADGE */
+.srv-badge{display:inline-flex;align-items:center;gap:6px;font-family:'Raleway',sans-serif;font-size:10px;letter-spacing:2px;text-transform:uppercase;padding:5px 12px;border-radius:20px;border:1px solid;position:fixed;bottom:28px;left:28px;z-index:1999;transition:all .4s}
+.srv-badge.online{color:#4ade80;border-color:rgba(74,222,128,.3);background:rgba(74,222,128,.06)}
+.srv-badge.offline{color:rgba(244,234,216,.3);border-color:rgba(244,234,216,.08);background:rgba(244,234,216,.02)}
+.srv-dot{width:6px;height:6px;border-radius:50%;background:currentColor}
+
+.orn{display:flex;align-items:center;gap:18px;color:rgba(200,168,75,.28);margin:44px 0}
+.orn span{font-size:18px}
+.orn::before,.orn::after{content:'';flex:1;height:1px;background:linear-gradient(90deg,transparent,rgba(200,168,75,.28),transparent)}
+
+.pp{padding:44px 0 72px}
+
+.deploy-step{border:1px solid var(--border);border-radius:6px;padding:28px 32px;margin-bottom:16px;background:var(--glass)}
+.deploy-step h3{font-family:'Cinzel',serif;font-size:14px;letter-spacing:3px;color:var(--gold);text-transform:uppercase;margin-bottom:12px}
+.deploy-step p{color:rgba(244,234,216,.68);font-size:15px;line-height:1.8;margin-bottom:10px}
+.deploy-step code{display:block;background:rgba(200,168,75,.07);border:1px solid rgba(200,168,75,.15);border-radius:4px;padding:12px 16px;font-family:'Courier New',monospace;font-size:13px;color:var(--gold2);margin:10px 0;white-space:pre;overflow-x:auto}
+.step-num{display:inline-flex;align-items:center;justify-content:center;width:28px;height:28px;border-radius:50%;background:linear-gradient(135deg,var(--gold),var(--crimson));color:var(--ink);font-family:'Cinzel',serif;font-size:12px;font-weight:700;margin-right:10px;flex-shrink:0}
+
+@media(max-width:768px){
+  header{padding:0 18px}nav{display:none}.container{padding:0 18px}
+  .hero{padding:55px 18px 36px}.stats{grid-template-columns:repeat(2,1fr)}
+  .feat-grid{grid-template-columns:1fr}.gen-row{grid-template-columns:1fr}
+  .hero-h{font-size:38px}
+}
+</style>
+</head>
+<body>
+<div class="bg"></div>
+<div class="ptcls" id="ptcls"></div>
+
+<!-- SERVER STATUS -->
+<div class="srv-badge offline" id="srv-badge">
+  <div class="srv-dot"></div>
+  <span id="srv-label">Локально</span>
+</div>
+
+<!-- HEADER -->
+<header>
+  <div class="logo" onclick="showPage('home')">
+    <div class="logo-hex">⚜</div>
+    <div>
+      <div class="logo-t">MYTHORIA</div>
+      <div class="logo-s">Форум Фанфиков & Литературы</div>
+    </div>
+  </div>
+  <nav>
+    <button class="nb act" onclick="showPage('home')">Главная</button>
+    <button class="nb" onclick="showPage('forum')">Форум</button>
+    <button class="nb" onclick="showPage('write')">Написать</button>
+    <button class="nb" onclick="showPage('ai')">🔮 ИИ-Генератор</button>
+    <button class="nb" onclick="showPage('top')">Авторы</button>
+    <button class="nb" onclick="showPage('deploy')">🚀 Деплой</button>
+  </nav>
+  <div class="hact">
+    <div class="dot-online"></div>
+    <span class="online-ct" id="online-ct">3,241 онлайн</span>
+    <button class="btn-g" onclick="openLogin()">Войти</button>
+    <button class="btn-p" style="font-size:11px;padding:9px 22px" onclick="showPage('write')">Вступить</button>
+  </div>
+</header>
+
+<!-- ══════ HOME ══════ -->
+<div id="page-home" class="page act">
+  <div class="hero">
+    <div class="hero-back">⚜ Mythoria ⚜</div>
+    <div class="hero-ey">✦ Место где рождаются легенды ✦</div>
+    <h1 class="hero-h">Mythoria</h1>
+    <p class="hero-d">Крупнейший русскоязычный форум фанфиков, поэзии, цитат и книжных дискуссий. Пишите. Читайте. Вдохновляйтесь.</p>
+    <div class="hero-acts">
+      <button class="btn-p" style="font-size:11px;padding:12px 28px" onclick="showPage('write')">✍ Написать</button>
+      <button class="btn-g" style="font-size:11px;padding:11px 24px" onclick="showPage('ai')">🔮 ИИ-Генератор</button>
+      <button class="btn-g" style="font-size:11px;padding:11px 24px" onclick="showPage('forum')">📚 Читать</button>
+    </div>
+  </div>
+  <div class="container pp">
+    <div class="stats">
+      <div class="stat"><div class="stat-n" data-count="127483">0</div><div class="stat-l">Публикаций</div></div>
+      <div class="stat"><div class="stat-n" data-count="38920">0</div><div class="stat-l">Авторов</div></div>
+      <div class="stat"><div class="stat-n" data-count="1240391">0</div><div class="stat-l">Комментариев</div></div>
+      <div class="stat"><div class="stat-n" data-count="3241">0</div><div class="stat-l">Онлайн</div></div>
+      <div class="stat"><div class="stat-n" data-count="847">0</div><div class="stat-l">Фандомов</div></div>
+    </div>
+
+    <div class="sh">
+      <div class="st">Избранное недели</div>
+      <button class="btn-g" onclick="showPage('forum')">Все →</button>
+    </div>
+    <div class="feat-grid">
+      <div class="feat-main" onclick="openPost(0)">
+        <div class="feat-ey">★ Публикация недели · Фанфик</div>
+        <h2 class="feat-tit">«Между строк: что Булгаков не успел сказать»</h2>
+        <p class="feat-ex">Маргарита вернулась в Москву через семьдесят лет. Не та Маргарита — другая. Но Воланд узнал её сразу, как только она вошла в кофейню на Патриарших прудах с томиком в руках...</p>
+        <div class="feat-auth">
+          <div class="av">🌙</div>
+          <div><div class="an">Виктория Морозова</div><div class="ar">Мастер пера · 2.1к подписчиков</div></div>
+          <div style="margin-left:auto;text-align:right"><div class="stars">★★★★★</div><div style="font-size:11px;color:rgba(244,234,216,.38);margin-top:3px">8,429 просмотров</div></div>
+        </div>
+      </div>
+      <div class="feat-side">
+        <div class="mc" onclick="openPost(7)"><div class="mc-l">🔥 Горячее</div><div class="mc-t">Гермиона и Тёмный Лорд: альтернативная хроника Азкабана</div></div>
+        <div class="mc" onclick="openPost(14)"><div class="mc-l">📖 Поэзия</div><div class="mc-t">«Осколки Средиземья» — цикл из 12 элегий об эльфийских войнах</div></div>
+        <div class="mc" onclick="openPost(21)"><div class="mc-l">💬 Цитата</div><div class="mc-t">«Рукописи не горят» — но что если Воланд ошибался?</div></div>
+        <div class="mc" onclick="openPost(35)"><div class="mc-l">⚔️ Дискуссия</div><div class="mc-t">Кто написал лучший антиутопический роман: Оруэлл или Хаксли?</div></div>
+      </div>
+    </div>
+
+    <div class="sh"><div class="st">Разделы форума</div></div>
+    <div class="cat-grid">
+      <div class="cc" onclick="filterAndGo('fanfic')" style="--ch:rgba(125,23,40,.12);--cg:rgba(125,23,40,.38)"><div class="cc-glow"></div><span class="cc-ic">📜</span><div class="cc-nm">Фанфики</div><div class="cc-ds">Продолжения, AU, кроссоверы и оригинальные истории по любимым мирам.</div><div class="cc-mt"><span>38,847</span><span>1,204 авторов</span></div></div>
+      <div class="cc" onclick="filterAndGo('quote')" style="--ch:rgba(20,85,96,.12);--cg:rgba(20,85,96,.38)"><div class="cc-glow"></div><span class="cc-ic">💬</span><div class="cc-nm">Цитаты</div><div class="cc-ds">Великие слова из книг, фильмов, аниме. Поделитесь тем, что изменило вас.</div><div class="cc-mt"><span>24,103</span><span>18.7к лайков</span></div></div>
+      <div class="cc" onclick="filterAndGo('review')" style="--ch:rgba(45,18,72,.12);--cg:rgba(45,18,72,.38)"><div class="cc-glow"></div><span class="cc-ic">📚</span><div class="cc-nm">Рецензии</div><div class="cc-ds">Глубокий анализ и критика великих произведений мировой литературы.</div><div class="cc-mt"><span>11,284</span><span>432 критика</span></div></div>
+      <div class="cc" onclick="filterAndGo('discuss')" style="--ch:rgba(200,168,75,.07);--cg:rgba(200,168,75,.28)"><div class="cc-glow"></div><span class="cc-ic">⚔️</span><div class="cc-nm">Дискуссии</div><div class="cc-ds">Горячие споры о любимых книгах, персонажах и литературных мирах.</div><div class="cc-mt"><span>8,921</span><span>284k ответов</span></div></div>
+      <div class="cc" onclick="filterAndGo('poem')" style="--ch:rgba(60,20,80,.12);--cg:rgba(60,20,80,.38)"><div class="cc-glow"></div><span class="cc-ic">🎭</span><div class="cc-nm">Поэзия</div><div class="cc-ds">Стихи по мотивам книг, оригинальные циклы и поэтические посвящения.</div><div class="cc-mt"><span>6,472</span><span>289 поэтов</span></div></div>
+      <div class="cc" onclick="filterAndGo('roleplay')" style="--ch:rgba(20,60,30,.12);--cg:rgba(20,60,30,.38)"><div class="cc-glow"></div><span class="cc-ic">🎲</span><div class="cc-nm">Ролевые игры</div><div class="cc-ds">Текстовые RPG по мирам книг. Станьте частью любимой истории.</div><div class="cc-mt"><span>3,847</span><span>Живые игры</span></div></div>
+      <div class="cc" onclick="showPage('ai')" style="--ch:rgba(90,37,160,.12);--cg:rgba(90,37,160,.38)"><div class="cc-glow"></div><span class="cc-ic">🔮</span><div class="cc-nm">ИИ-Генератор</div><div class="cc-ds">Нейросеть создаёт фанфики, стихи и продолжения по вашему запросу.</div><div class="cc-mt"><span>Бесплатно</span><span>OpenRouter</span></div></div>
+      <div class="cc" onclick="showPage('deploy')" style="--ch:rgba(200,168,75,.05);--cg:rgba(200,168,75,.2)"><div class="cc-glow"></div><span class="cc-ic">🚀</span><div class="cc-nm">Деплой форума</div><div class="cc-ds">Инструкция по запуску реального бэкенда с базой данных для форума.</div><div class="cc-mt"><span>Firebase</span><span>Supabase</span></div></div>
+    </div>
+
+    <div class="orn"><span>✦</span></div>
+    <div class="sh"><div class="st">Свежие публикации</div><button class="btn-g" onclick="showPage('forum')">Все →</button></div>
+    <div class="posts" id="home-posts"></div>
+  </div>
+</div>
+
+<!-- ══════ FORUM ══════ -->
+<div id="page-forum" class="page">
+  <div class="container pp">
+    <div class="sh" style="margin-top:36px">
+      <div class="st">Все публикации</div>
+      <div style="font-size:11px;font-family:'Raleway',sans-serif;letter-spacing:2px;color:rgba(244,234,216,.38)" id="post-count-label"></div>
+    </div>
+    <div class="search-row">
+      <input class="search-inp" id="search-inp" placeholder="Поиск по заголовку, автору, фандому..." oninput="filterPosts()">
+      <select class="sort-sel" id="sort-sel" onchange="filterPosts()">
+        <option value="new">Новые</option>
+        <option value="hot">Горячие 🔥</option>
+        <option value="views">По просмотрам</option>
+        <option value="rating">По рейтингу</option>
+      </select>
+    </div>
+    <div style="display:flex;flex-wrap:wrap;gap:8px;margin-bottom:24px" id="filter-pills">
+      <button class="pill sel" onclick="setFilter('all',this)">Все</button>
+      <button class="pill" onclick="setFilter('fanfic',this)">📜 Фанфики</button>
+      <button class="pill" onclick="setFilter('quote',this)">💬 Цитаты</button>
+      <button class="pill" onclick="setFilter('review',this)">📚 Рецензии</button>
+      <button class="pill" onclick="setFilter('discuss',this)">⚔️ Дискуссии</button>
+      <button class="pill" onclick="setFilter('poem',this)">🎭 Поэзия</button>
+      <button class="pill" onclick="setFilter('roleplay',this)">🎲 Ролевые</button>
+    </div>
+    <div class="posts" id="forum-posts"></div>
+    <div class="pagination" id="pagination"></div>
+  </div>
+</div>
+
+<!-- ══════ WRITE ══════ -->
+<div id="page-write" class="page">
+  <div class="form-wrap">
+    <div class="form-card">
+      <div class="form-hd">
+        <div class="form-ht">✍ Новая Публикация</div>
+        <div class="form-hs">Поделитесь своим творчеством с сообществом Mythoria</div>
+      </div>
+      <div class="form-bd">
+        <div class="fg"><label class="fl">Тип публикации</label>
+          <div class="pills" id="w-types">
+            <button class="pill sel" onclick="selType(this,'fanfic')">📜 Фанфик</button>
+            <button class="pill" onclick="selType(this,'quote')">💬 Цитата</button>
+            <button class="pill" onclick="selType(this,'review')">📚 Рецензия</button>
+            <button class="pill" onclick="selType(this,'discuss')">⚔️ Дискуссия</button>
+            <button class="pill" onclick="selType(this,'poem')">🎭 Стихи</button>
+            <button class="pill" onclick="selType(this,'roleplay')">🎲 Ролевая</button>
+          </div>
+        </div>
+        <div class="fg"><label class="fl">Ваше имя / никнейм</label><input class="fi" id="w-author" type="text" placeholder="Как вас зовут на форуме..."></div>
+        <div class="fg"><label class="fl">Заголовок</label><input class="fi" id="w-title" type="text" placeholder="Дайте вашей истории имя..."></div>
+        <div class="fg"><label class="fl">Фандом / Вселенная</label>
+          <select class="fsl" id="w-fandom">
+            <option value="">Выберите фандом...</option>
+            <option>Гарри Поттер</option><option>Властелин Колец</option><option>Мастер и Маргарита</option>
+            <option>Дюна</option><option>Ведьмак</option><option>Наруто</option><option>Атака Титанов</option>
+            <option>Игра Престолов</option><option>Достоевский</option><option>Толстой</option>
+            <option>Булгаков</option><option>Пастернак</option><option>1984 / Оруэлл</option>
+            <option>Сумерки</option><option>Hunger Games</option><option>Звёздные войны</option>
+            <option>Marvel</option><option>Шерлок Холмс</option><option>Оригинальный мир</option>
+            <option>Другое</option>
+          </select>
+        </div>
+        <div class="fg"><label class="fl">Жанры</label>
+          <div class="pills">
+            <button class="pill" onclick="toggleGenre(this)">Романтика</button>
+            <button class="pill" onclick="toggleGenre(this)">Драма</button>
+            <button class="pill" onclick="toggleGenre(this)">Приключения</button>
+            <button class="pill" onclick="toggleGenre(this)">Мистика</button>
+            <button class="pill" onclick="toggleGenre(this)">Тёмное</button>
+            <button class="pill" onclick="toggleGenre(this)">Флафф</button>
+            <button class="pill" onclick="toggleGenre(this)">Ангст</button>
+            <button class="pill" onclick="toggleGenre(this)">AU</button>
+            <button class="pill" onclick="toggleGenre(this)">Кроссовер</button>
+            <button class="pill" onclick="toggleGenre(this)">Хоррор</button>
+            <button class="pill" onclick="toggleGenre(this)">Юмор</button>
+            <button class="pill" onclick="toggleGenre(this)">Философское</button>
+          </div>
+        </div>
+        <div class="fg"><label class="fl">Текст</label><textarea class="fta" id="w-content" placeholder="Начните свою историю..."></textarea></div>
+        <div class="fg"><label class="fl">Теги (через запятую)</label><input class="fi" id="w-tags" type="text" placeholder="романтика, AU, флафф, драма..."></div>
+        <div class="fg"><label class="fl">Предупреждения (если есть)</label>
+          <div class="pills">
+            <button class="pill" onclick="toggleGenre(this)">18+</button>
+            <button class="pill" onclick="toggleGenre(this)">Смерть персонажа</button>
+            <button class="pill" onclick="toggleGenre(this)">Тёмные темы</button>
+            <button class="pill" onclick="toggleGenre(this)">Насилие</button>
+          </div>
+        </div>
+      </div>
+      <div class="form-ft">
+        <button class="btn-g" onclick="showPage('home')">Отмена</button>
+        <button class="btn-g" onclick="aiDraftHelp()">🔮 ИИ поможет</button>
+        <button class="btn-p" style="font-size:10px;padding:11px 28px;letter-spacing:3px" onclick="publishPost()">Опубликовать ✦</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════ AI ══════ -->
+<div id="page-ai" class="page">
+  <div class="ai-page">
+  <div class="ai-wrap">
+    <div class="ai-hd">
+      <div class="ai-ht">🔮 ИИ-Генератор</div>
+      <div class="ai-hs">Нейросеть создаёт фанфики, стихи, цитаты и продолжения за вас.</div>
+      <div class="ai-tabs">
+        <button class="ai-tab act" onclick="setAiTab('gen',this)">⚡ Генератор</button>
+        <button class="ai-tab" onclick="setAiTab('chat',this)">💬 Чат-Оракул</button>
+      </div>
+    </div>
+
+    <div id="ai-gen-panel">
+      <div class="gen-panel">
+        <div class="gen-header"><span class="gen-icon">📜</span><span class="gen-label">Генератор фанфиков</span></div>
+        <div class="gen-body">
+          <div class="gen-row">
+            <div class="fg" style="margin:0">
+              <label class="fl">Фандом</label>
+              <select class="fsl" id="gen-fandom">
+                <option>Гарри Поттер</option><option>Мастер и Маргарита</option><option>Властелин Колец</option>
+                <option>Ведьмак</option><option>Дюна</option><option>1984</option><option>Наруто</option>
+                <option>Атака Титанов</option><option>Достоевский</option><option>Шерлок Холмс</option>
+              </select>
+            </div>
+            <div class="fg" style="margin:0">
+              <label class="fl">Жанр</label>
+              <select class="fsl" id="gen-genre">
+                <option>Романтика</option><option>Драма</option><option>Тёмное</option><option>Приключения</option>
+                <option>Мистика</option><option>Хоррор</option><option>Флафф</option><option>Ангст</option>
+              </select>
+            </div>
+          </div>
+          <div class="gen-row">
+            <div class="fg" style="margin:0">
+              <label class="fl">Главный герой</label>
+              <input class="fi" id="gen-hero" placeholder="Например: Гермиона Грейнджер">
+            </div>
+            <div class="fg" style="margin:0">
+              <label class="fl">Завязка (необязательно)</label>
+              <input class="fi" id="gen-plot" placeholder="Краткое описание сюжета...">
+            </div>
+          </div>
+          <div class="fg" style="margin-bottom:8px">
+            <label class="fl">Длина</label>
+            <div class="pills">
+              <button class="pill sel" onclick="selLen(this,'short')">Коротко (~300 слов)</button>
+              <button class="pill" onclick="selLen(this,'medium')">Средне (~600 слов)</button>
+              <button class="pill" onclick="selLen(this,'long')">Длинно (~1000 слов)</button>
+            </div>
+          </div>
+          <button class="gen-btn" id="ff-gen-btn" onclick="generateFanfic()">✦ Сгенерировать фанфик</button>
+          <div class="gen-output" id="ff-output"><button class="gen-copy" onclick="copyOutput('ff-output')">Скопировать</button><div id="ff-text"></div></div>
+          <div class="gen-publish-hint" id="ff-hint" style="display:none">→ <span style="cursor:pointer;color:var(--gold);text-decoration:underline" onclick="publishGenerated('ff')">Опубликовать на форуме</span></div>
+        </div>
+      </div>
+
+      <div class="gen-panel">
+        <div class="gen-header"><span class="gen-icon">🎭</span><span class="gen-label">Генератор стихов</span></div>
+        <div class="gen-body">
+          <div class="gen-row">
+            <div class="fg" style="margin:0">
+              <label class="fl">Тема стихотворения</label>
+              <input class="fi" id="gen-poem-theme" placeholder="Напр: одиночество эльфа, первый снег в Хогвартсе...">
+            </div>
+            <div class="fg" style="margin:0">
+              <label class="fl">Форма</label>
+              <select class="fsl" id="gen-poem-form">
+                <option>Сонет</option><option>Элегия</option><option>Хайку</option>
+                <option>Верлибр</option><option>Баллада</option><option>Ода</option>
+              </select>
+            </div>
+          </div>
+          <button class="gen-btn" id="po-gen-btn" onclick="generatePoem()">✦ Написать стихотворение</button>
+          <div class="gen-output" id="po-output"><button class="gen-copy" onclick="copyOutput('po-output')">Скопировать</button><div id="po-text"></div></div>
+          <div class="gen-publish-hint" id="po-hint" style="display:none">→ <span style="cursor:pointer;color:var(--gold);text-decoration:underline" onclick="publishGenerated('po')">Опубликовать на форуме</span></div>
+        </div>
+      </div>
+
+      <div class="gen-panel">
+        <div class="gen-header"><span class="gen-icon">💬</span><span class="gen-label">Генератор цитат и афоризмов</span></div>
+        <div class="gen-body">
+          <div class="gen-row">
+            <div class="fg" style="margin:0">
+              <label class="fl">Тема</label>
+              <input class="fi" id="gen-qt-theme" placeholder="Напр: одиночество, любовь, власть, время...">
+            </div>
+            <div class="fg" style="margin:0">
+              <label class="fl">Стиль</label>
+              <select class="fsl" id="gen-qt-style">
+                <option>Булгаков</option><option>Достоевский</option><option>Толстой</option>
+                <option>Пастернак</option><option>Толкин</option><option>Философский</option><option>Лирический</option>
+              </select>
+            </div>
+          </div>
+          <button class="gen-btn" id="qt-gen-btn" onclick="generateQuote()">✦ Создать цитату</button>
+          <div class="gen-output" id="qt-output"><button class="gen-copy" onclick="copyOutput('qt-output')">Скопировать</button><div id="qt-text"></div></div>
+          <div class="gen-publish-hint" id="qt-hint" style="display:none">→ <span style="cursor:pointer;color:var(--gold);text-decoration:underline" onclick="publishGenerated('qt')">Опубликовать на форуме</span></div>
+        </div>
+      </div>
+
+      <div class="gen-panel">
+        <div class="gen-header"><span class="gen-icon">📖</span><span class="gen-label">Продолжить текст</span></div>
+        <div class="gen-body">
+          <div class="fg">
+            <label class="fl">Вставьте начало текста</label>
+            <textarea class="fta" id="gen-cont-text" style="min-height:140px" placeholder="Вставьте отрывок или начало истории, которую хотите продолжить..."></textarea>
+          </div>
+          <button class="gen-btn" id="ct-gen-btn" onclick="generateContinue()">✦ Продолжить историю</button>
+          <div class="gen-output" id="ct-output"><button class="gen-copy" onclick="copyOutput('ct-output')">Скопировать</button><div id="ct-text"></div></div>
+          <div class="gen-publish-hint" id="ct-hint" style="display:none">→ <span style="cursor:pointer;color:var(--gold);text-decoration:underline" onclick="publishGenerated('ct')">Опубликовать на форуме</span></div>
+        </div>
+      </div>
+
+      <div style="border:1px solid var(--border);border-radius:6px;padding:22px 28px;background:rgba(200,168,75,.05);margin-bottom:24px">
+        <label class="fl" style="margin-bottom:12px">🔑 API ключ OpenRouter (обязателен для генерации)</label>
+        <div style="display:flex;gap:10px">
+          <input type="password" class="fi" id="api-key" style="flex:1" placeholder="sk-or-v1-... · Получить бесплатно: openrouter.ai">
+          <button class="btn-p" style="white-space:nowrap;font-size:10px;padding:0 20px" onclick="saveKey()">Сохранить</button>
+        </div>
+        <div style="margin-top:10px;font-size:12px;color:rgba(244,234,216,.38);font-family:'Raleway',sans-serif;line-height:1.7">
+          Используется модель <strong style="color:var(--gold)">mistralai/mistral-7b-instruct:free</strong> (бесплатная).<br>
+          Ключ хранится только в вашем браузере и никуда не отправляется кроме OpenRouter.
+        </div>
+      </div>
+    </div>
+
+    <div id="ai-chat-panel" style="display:none">
+      <div style="display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin-bottom:24px">
+        <button class="ai-tab act" id="mode-btn-creative" onclick="setMode('creative',this)">✍ Творчество</button>
+        <button class="ai-tab" id="mode-btn-analyze" onclick="setMode('analyze',this)">🔍 Анализ</button>
+        <button class="ai-tab" id="mode-btn-quote" onclick="setMode('quote',this)">💬 Цитаты</button>
+        <button class="ai-tab" id="mode-btn-continue" onclick="setMode('continue',this)">📖 Продолжить</button>
+        <button class="ai-tab" id="mode-btn-char" onclick="setMode('char',this)">🎭 Персонаж</button>
+        <button class="ai-tab" id="mode-btn-discuss" onclick="setMode('discuss',this)">⚔️ Дискуссия</button>
+      </div>
+      <div class="ai-chat">
+        <div class="ai-msgs" id="ai-msgs">
+          <div class="ai-welcome" id="ai-welcome">
+            <div class="ai-wi">🔮</div>
+            <div class="ai-wt">Я — Оракул Mythoria.<br>Задайте вопрос о литературе,<br>попросите написать стихи или продолжить историю.<br><em style="font-size:13px;color:rgba(200,168,75,.45)">Введите API ключ выше · OpenRouter бесплатно</em></div>
+          </div>
+        </div>
+        <div class="ai-ia">
+          <div class="ai-kr">
+            <span class="ai-kl">API ключ:</span>
+            <input type="password" class="ai-ki" id="api-key-chat" placeholder="sk-or-v1-...">
+            <button class="btn-g" style="padding:7px 14px;font-size:10px" onclick="saveKeyCopy()">OK</button>
+          </div>
+          <div class="ai-ir">
+            <textarea class="ai-ta" id="ai-inp" rows="1" placeholder="Спросите Оракула..." onkeydown="handleKey(event)" oninput="autoResize(this)"></textarea>
+            <button class="ai-send" id="ai-send" onclick="sendMsg()">➤</button>
+          </div>
+          <div class="chips">
+            <button class="chip" onclick="useChip(this)">Напиши начало детективного фанфика о Шерлоке в Москве</button>
+            <button class="chip" onclick="useChip(this)">Создай персонажа для мира Гарри Поттера</button>
+            <button class="chip" onclick="useChip(this)">Напиши сонет о Средиземье</button>
+            <button class="chip" onclick="useChip(this)">Чем Оруэлл лучше Хаксли?</button>
+            <button class="chip" onclick="useChip(this)">Продолжи: «Маргарита открыла окно и увидела...»</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  </div>
+</div>
+
+<!-- ══════ AUTHORS ══════ -->
+<div id="page-top" class="page">
+  <div class="container pp">
+    <div class="sh" style="margin-top:36px"><div class="st">Топ Авторов Mythoria</div></div>
+    <div class="auth-grid" id="auth-grid"></div>
+  </div>
+</div>
+
+<!-- ══════ DEPLOY ══════ -->
+<div id="page-deploy" class="page">
+  <div class="container pp">
+    <div class="sh" style="margin-top:36px"><div class="st">🚀 Запуск на Termux</div></div>
+    <p style="color:rgba(244,234,216,.6);font-size:15px;margin-bottom:32px;font-style:italic">Этот файл уже готов к работе с сервером. Следуйте инструкции ниже.</p>
+
+    <div class="deploy-step">
+      <h3><span class="step-num">1</span>Установить зависимости в Termux</h3>
+      <p>Установи Termux из F-Droid (не Google Play), затем выполни:</p>
+      <code>pkg update && pkg upgrade -y
+pkg install python -y
+pip install fastapi uvicorn aiofiles python-multipart</code>
+    </div>
+
+    <div class="deploy-step">
+      <h3><span class="step-num">2</span>Создать папку и server.py</h3>
+      <code>mkdir ~/mythoria && cd ~/mythoria
+nano server.py</code>
+      <p>Вставь содержимое server.py (см. следующий шаг), сохрани Ctrl+X → Y → Enter</p>
+    </div>
+
+    <div class="deploy-step">
+      <h3><span class="step-num">3</span>Содержимое server.py</h3>
+      <code>from fastapi import FastAPI
+from fastapi.middleware.cors import CORSMiddleware
+from fastapi.staticfiles import StaticFiles
+from pydantic import BaseModel
+import json, os, time
+
+app = FastAPI()
+app.add_middleware(CORSMiddleware,
+    allow_origins=["*"], allow_methods=["*"], allow_headers=["*"])
+
+DB = "posts.json"
+
+class Post(BaseModel):
+    title: str; content: str; type: str = "fanfic"
+    fandom: str = ""; author: str = "Аноним"; rating: int = 4
+
+def load():
+    if not os.path.exists(DB): return []
+    return json.load(open(DB, encoding="utf-8"))
+
+def save(d):
+    json.dump(d, open(DB,"w",encoding="utf-8"), ensure_ascii=False, indent=2)
+
+@app.get("/posts")
+def get_posts(): return load()
+
+@app.post("/posts")
+def add_post(p: Post):
+    posts = load()
+    new = {**p.dict(), "id":"srv-"+str(int(time.time())),
+           "date":"Только что","views":0,"replies":0,"likes":0,"hot":False}
+    posts.insert(0, new); save(posts); return new
+
+app.mount("/", StaticFiles(directory=".", html=True), name="static")</code>
+    </div>
+
+    <div class="deploy-step">
+      <h3><span class="step-num">4</span>Скопировать index.html</h3>
+      <code>cp /sdcard/Download/index.html ~/mythoria/index.html</code>
+      <p>Или перенеси файл через Telegram → сохрани в загрузки → скопируй командой выше.</p>
+    </div>
+
+    <div class="deploy-step">
+      <h3><span class="step-num">5</span>Запустить сервер</h3>
+      <code>cd ~/mythoria
+uvicorn server:app --host 0.0.0.0 --port 8000</code>
+      <p>Сайт доступен локально: <strong style="color:var(--gold)">http://localhost:8000</strong></p>
+    </div>
+
+    <div class="deploy-step">
+      <h3><span class="step-num">6</span>Открыть доступ из интернета (ngrok)</h3>
+      <p>В новой вкладке Termux (свайп слева → New Session):</p>
+      <code>pkg install wget -y
+wget https://bin.equinox.io/c/bNyj1mQVY4c/ngrok-v3-stable-linux-arm64.tgz
+tar xf ngrok-v3-stable-linux-arm64.tgz && chmod +x ngrok
+./ngrok config add-authtoken ВАШ_ТОКЕН   # с сайта ngrok.com
+./ngrok http 8000</code>
+      <p>Ngrok покажет ссылку вида <strong style="color:var(--gold)">https://abc123.ngrok-free.app</strong> — отправляй её друзьям!</p>
+    </div>
+
+    <div class="deploy-step">
+      <h3><span class="step-num">7</span>Статус подключения</h3>
+      <p>Индикатор в левом нижнем углу показывает: <strong style="color:#4ade80">● Сервер</strong> — посты сохраняются для всех, <strong style="color:rgba(244,234,216,.4)">● Локально</strong> — работает только на вашем устройстве.</p>
+    </div>
+  </div>
+</div>
+
+<!-- POST MODAL -->
+<div class="modal-ov" id="modal-ov" onclick="closeModal(event)">
+  <div class="modal">
+    <div class="m-hd">
+      <div><div id="m-tag" style="margin-bottom:6px"></div><div class="m-tit" id="m-sub"></div></div>
+      <button class="m-cls" onclick="closeModalD()">✕</button>
+    </div>
+    <div class="m-bd">
+      <h2 class="m-ptit" id="m-title"></h2>
+      <div class="m-meta">
+        <div class="av" id="m-av"></div>
+        <div><div class="an" id="m-auth"></div><div class="ar" id="m-date"></div></div>
+        <div style="margin-left:auto" id="m-stars"></div>
+      </div>
+      <div class="m-txt" id="m-content"></div>
+      <div class="m-actions">
+        <button class="btn-g" onclick="likePost()">❤ Нравится</button>
+        <button class="btn-g" onclick="sharePost()">🔗 Поделиться</button>
+        <button class="btn-p" style="font-size:10px;padding:9px 18px;letter-spacing:2px" onclick="showPage('write')">✍ Ответить</button>
+      </div>
+      <div class="comments" id="m-comments">
+        <div class="cmt-h">Комментарии</div>
+        <div id="cmt-list"></div>
+        <div class="cmt-inp-row">
+          <input class="cmt-inp" id="cmt-inp" placeholder="Ваш комментарий...">
+          <button class="btn-p" style="font-size:10px;padding:9px 16px;letter-spacing:2px" onclick="addComment()">Отправить</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+// ═══ POSTS DATA ═══
+const POSTS = [
+{id:0,type:'fanfic',tag:'t-ff',label:'📜 Фанфик',title:'Между строк: что Булгаков не успел сказать',author:'Виктория Морозова',av:'🌙',fandom:'Мастер и Маргарита',date:'2 часа назад',views:8429,replies:187,likes:342,hot:true,stars:'★★★★★',rating:5,content:`<p>Маргарита вернулась в Москву через семьдесят лет. Не та Маргарита — другая. Но Воланд узнал её сразу, как только она вошла в кофейню на Патриарших прудах с томиком в руках.</p><p>— Вы читаете правильную книгу, — сказал он, присаживаясь напротив без приглашения. — Хотя автор немного слукавил в третьей части.</p><p>Она подняла взгляд. Глаза у незнакомца были разного цвета — один зелёный, один тёмный, почти чёрный. И в каждом светился огонь, которого не бывает у смертных.</p><p>— Вы — Воланд, — сказала она не вопросом, а констатацией. — Значит, рукописи действительно не горят.</p><p>— Не горят, — согласился он. — Некоторые из них я храню лично. — Он сложил руки на трости с головой чёрного пуделя. — Один экземпляр ждёт вас уже давно.</p><p>За окном кофейни накрапывал апрельский дождь, и прохожие раскрывали зонты, как грибы после первой грозы. Никто из них не знал, что за витриной с надписью «Кофе и книги» сидит сам Воланд и смотрит на Москву взглядом человека, видевшего её ещё деревянной.</p>`},
+{id:1,type:'fanfic',tag:'t-ff',label:'📜 Фанфик',title:'Гермиона и манускрипт Воронцова',author:'РомантикPotter',av:'⚡',fandom:'Гарри Поттер',date:'4 часа назад',views:11243,replies:312,likes:891,hot:true,stars:'★★★★★',rating:5,content:`<p>На третьем курсе Гермиона обнаружила в Запретной секции книгу без названия — точнее, с названием, написанным так, что прочесть его можно было лишь при свете лунного затмения.</p><p>— Это русский алфавит, — сказала она Гарри на следующий день. — Очень старый. Профессор МакГонагалл говорит, что такого шрифта не существовало после тысяча восьмисотого года.</p><p>Рон почесал затылок. — Может, просто выброси её? Запретная секция же не просто так называется...</p><p>Но Гермиона уже не слушала. Потому что страницы книги начали светиться — медленно, тепло, словно угли в камине — и из строк поднимался тонкий запах лаванды и снега.</p><p>Когда она прочитала первую страницу, мир изменился. Она ещё не знала — навсегда.</p>`},
+{id:2,type:'fanfic',tag:'t-ff',label:'📜 Фанфик',title:'Тёмный Лорд: альтернативная хроника Азкабана',author:'ТьмаИСвет',av:'🐍',fandom:'Гарри Поттер',date:'6 часов назад',views:9871,replies:243,likes:677,hot:true,stars:'★★★★★',rating:5,content:`<p>Азкабан пах солью и отчаянием. Дементоры скользили по коридорам как тени в тени, и единственным звуком оставались капли воды — ритмичные, как метроном безумия.</p><p>Беллатрикс сидела у стены и улыбалась.</p><p>Она улыбалась уже двенадцать лет. Потому что знала: он вернётся. Потому что чувствовала — тонкую, как паутина, нить, которая протянулась сквозь камень и воду, сквозь все тюремные стены — прямо к своему хозяину.</p><p>Этой ночью нить потеплела.</p>`},
+{id:3,type:'fanfic',tag:'t-ff',label:'📜 Фанфик',title:'Арагорн и последний эльф Лориена',author:'ТолкинЛюбовь',av:'🌿',fandom:'Властелин Колец',date:'8 часов назад',views:6234,replies:158,likes:489,hot:false,stars:'★★★★☆',rating:4,content:`<p>Лориен опустел в год третьего века Четвёртой Эпохи. Последней ушла Галадриэль — это знали все. Но никто не знал о той, что осталась.</p><p>Её звали Эарвен. Она была слишком юна, чтобы уйти вместе со старшими, и слишком горда, чтобы просить разрешения. И она осталась — хранить деревья, которые помнили ещё голоса нуменорцев.</p><p>Когда Арагорн нашёл её, прошло сорок лет после его коронации. Она сидела у корня маллорна и пела на синдарине — медленно, без слёз, как поют об умерших.</p>`},
+{id:4,type:'fanfic',tag:'t-ff',label:'📜 Фанфик',title:'Геральт в мире Достоевского',author:'КроссоверМастер',av:'⚔️',fandom:'Ведьмак',date:'10 часов назад',views:14821,replies:421,likes:1203,hot:true,stars:'★★★★★',rating:5,content:`<p>Санкт-Петербург тысяча восемьсот шестьдесят пятого года встретил его дождём и запахом гнили с Невы. Геральт поднял воротник и пошёл по Сенной площади, обходя лужи с механической точностью человека, привыкшего ходить по болотам.</p><p>Монстр, за которым он шёл, был необычный. Не упырь, не стрыга — что-то новое. Что-то, рождённое этим городом, его тоской и его студентами с холодными глазами и горячими идеями.</p><p>На углу к нему подошёл молодой человек в поношенном пальто.</p><p>— Вы не здешний, — сказал он утвердительно. — Я вижу это по тому, как вы смотрите на город. Как будто он вам должен.</p><p>— Всего лишь информацию, — ответил Геральт. — Топор, который убивает без следа крови. Вы не слышали о таком?</p>`},
+{id:5,type:'fanfic',tag:'t-ff',label:'📜 Фанфик',title:'Пол Атрейдес и тайна второго Квисатць Хадераха',author:'ДюнаВечность',av:'🌙',fandom:'Дюна',date:'12 часов назад',views:7342,replies:196,likes:534,hot:false,stars:'★★★★☆',rating:4,content:`<p>Аракис хранил тайны, как песок хранит кости. И одну из них Пол нашёл только в год своего тридцатилетия — в самом глубоком слое предвидения, куда не доходил даже Золотой Путь.</p><p>Там был другой. Похожий на него, но рождённый иначе — не Бене Гессерит, не Атрейдес, не Харконнен. Рождённый самим Аракисом из миллиона лет песчаного одиночества.</p><p>Шай-Хулуд знал о нём. Все черви знали. И молчали.</p>`},
+{id:6,type:'fanfic',tag:'t-ff',label:'📜 Фанфик',title:'Раскольников и машина времени',author:'НеоДостоевский',av:'🔪',fandom:'Достоевский',date:'14 часов назад',views:5129,replies:134,likes:398,hot:false,stars:'★★★★☆',rating:4,content:`<p>Он проснулся не в своей каморке.</p><p>Потолок был белым — слишком белым для Петербурга 1865 года. И от него не пахло плесенью. И на стене висел прямоугольник стекла, который светился и показывал слова.</p><p>Родион Романович Раскольников сел на кровати и понял, что находится в будущем. Насколько далёком — непонятно. Но достаточно далёком, чтобы его никто не знал, никто не боялся и никто не ждал.</p><p>Впервые за год он почувствовал что-то, похожее на облегчение.</p>`},
+{id:7,type:'fanfic',tag:'t-ff',label:'📜 Фанфик',title:'Шерлок Холмс в советской Москве',author:'Детектив221б',av:'🔍',fandom:'Шерлок Холмс',date:'1 день назад',views:8934,replies:267,likes:712,hot:true,stars:'★★★★★',rating:5,content:`<p>Москва, 1937 год. Мистер Холмс появился в советской столице так же внезапно, как исчез из Лондона — без объяснений, без чемоданов, с одной лишь трубкой и записной книжкой в кожаном переплёте.</p><p>НКВД заинтересовался им на второй день. На третий — попросил о встрече. На четвёртый Холмс уже сидел в кабинете Ежова и объяснял, каким образом немецкий агент прятал шифры в партитурах симфонического оркестра.</p><p>— Элементарно, — сказал он, когда полковник уставился на него с изумлением. — Вы искали иностранца. Он был дирижёром уже двадцать лет.</p>`},
+{id:8,type:'fanfic',tag:'t-ff',label:'📜 Фанфик',title:'Наруто: Последняя война богов',author:'НаруАниме',av:'🦊',fandom:'Наруто',date:'1 день назад',views:12740,replies:389,likes:1102,hot:true,stars:'★★★★★',rating:5,content:`<p>Через сто лет после смерти Курамы девятихвостый лис вернулся — не как чакра, не как печать, а как настоящий. Наруто чувствовал это даже в мире мёртвых: тонкое, рыжее, тёплое касание сознания, которое снова искало своего человека.</p><p>Он открыл глаза там, где никогда не думал оказаться — в теле своего правнука, в деревне, которую уже не узнавал.</p>`},
+{id:9,type:'fanfic',tag:'t-ff',label:'📜 Фанфик',title:'Анна Каренина. Версия, в которой она выжила',author:'АльтерЭго',av:'🌺',fandom:'Толстой',date:'2 дня назад',views:4821,replies:127,likes:445,hot:false,stars:'★★★★☆',rating:4,content:`<p>Поезд прошёл мимо.</p><p>Она не знала — почему. Может быть, ноги не послушались. Может быть, в последний момент она увидела на перроне Серёжу — маленького, с шарфом, который вязала ему ещё в первый год замужества. Может быть, просто испугалась холода рельсов.</p><p>Анна отошла от края и долго смотрела на свои руки. Потом пошла к выходу.</p><p>На следующий день она купила билет до Женевы и написала Вронскому одно слово: «Прощай».</p>`},
+{id:10,type:'fanfic',tag:'t-ff',label:'📜 Фанфик',title:'Титаны атакуют: за пределами стен',author:'ТитанВсегда',av:'💀',fandom:'Атака Титанов',date:'2 дня назад',views:9281,replies:274,likes:834,hot:false,stars:'★★★★★',rating:5,content:`<p>За Стенами Марии была не пустыня.</p><p>Это понял Эрен только тогда, когда перелетел последний хребет и увидел внизу огни — тысячи огней, складывающихся в паттерн слишком правильный для леса. Это был город. Живой, шумный, огромный. Город, которого не существовало ни на одной карте мира.</p>`},
+{id:11,type:'fanfic',tag:'t-ff',label:'📜 Фанфик',title:'1984: Дневник Джулии',author:'ОруэллНаш',av:'👁',fandom:'1984',date:'3 дня назад',views:6341,replies:178,likes:623,hot:false,stars:'★★★★★',rating:5,content:`<p>Она никогда не верила Партии. Даже когда носила красный пояс. Даже когда скандировала лозунги громче всех — потому что именно так не замечают.</p><p>Джулия вела дневник с четырнадцати лет. Не в тетради — в голове. Каждый день записывала одно настоящее слово. Одно, которое Партия не могла забрать, потому что оно существовало только в ней.</p><p>Сегодняшнее слово было: надежда.</p>`},
+{id:12,type:'fanfic',tag:'t-ff',label:'📜 Фанфик',title:'Игра Престолов: Дейенерис не сожгла Королевскую Гавань',author:'КхалесиВечно',av:'🐉',fandom:'Игра Престолов',date:'3 дня назад',views:18293,replies:567,likes:2103,hot:true,stars:'★★★★★',rating:5,content:`<p>Колокола зазвонили — и она остановила Дрогона в воздухе.</p><p>Пять секунд она висела над городом и слышала их: медные, громкие, живые. Капитуляция. Победа без крови. Именно того, чего она хотела всю жизнь — именно этого боялась получить.</p><p>Потому что победа без огня означала, что она — не её мать. Не безумный король. Что она — другая.</p><p>Дейенерис развернула дракона на север.</p>`},
+{id:13,type:'quote',tag:'t-qt',label:'💬 Цитата',title:'«Рукописи не горят» — Воланд',author:'АрхивистМира',av:'📜',fandom:'Мастер и Маргарита',date:'3 часа назад',views:4213,replies:98,likes:1891,hot:false,stars:'★★★★★',rating:5,content:`<p>Одна из самых цитируемых фраз русской литературы XX века. Воланд произносит её Мастеру, когда тот сжигает рукопись — и тут же достаёт её, целую и невредимую.</p><p>Булгаков вложил в эти три слова нечто большее, чем сюжетный поворот. Это манифест. Утверждение о природе истинного искусства — что настоящее произведение не может быть уничтожено, потому что оно существует уже не только на бумаге, но в памяти, в духе, в самой ткани мира.</p>`},
+{id:14,type:'quote',tag:'t-qt',label:'💬 Цитата',title:'«Всё пройдёт, и это тоже пройдёт» — кольцо Соломона',author:'МудростьВеков',av:'💍',fandom:'Мировая мудрость',date:'5 часов назад',views:3102,replies:67,likes:2341,hot:false,stars:'★★★★★',rating:5,content:`<p>Легендарная фраза, которую приписывают царю Соломону. По преданию, она была выгравирована на кольце, которое показывали царю и в радости, и в горе.</p><p>Парадокс этой фразы — в том, что она работает в обоих направлениях. В момент счастья она напоминает о его хрупкости. В момент отчаяния — об его временности.</p>`},
+{id:15,type:'quote',tag:'t-qt',label:'💬 Цитата',title:'«Красота спасёт мир» — Достоевский',author:'ДостоевскийФан',av:'📚',fandom:'Достоевский',date:'7 часов назад',views:5841,replies:143,likes:3102,hot:false,stars:'★★★★★',rating:5,content:`<p>Эту фразу из «Идиота» часто вырывают из контекста. Её произносит не Мышкин — её пересказывает Ипполит, и с иронией. Достоевский намеренно вложил великую идею в уста умирающего нигилиста.</p><p>Что это значит? Что красота — не панацея. Что она может и ранить, и уничтожать. Достоевский верил в красоту, но не был наивен.</p>`},
+{id:16,type:'review',tag:'t-rv',label:'📚 Рецензия',title:'Дюна: почему роман Герберта стал пророчеством XXI века',author:'КритикИстины',av:'🔍',fandom:'Дюна',date:'13 часов назад',views:6234,replies:189,likes:892,hot:false,stars:'★★★★★',rating:5,content:`<p>Написанная в 1965 году, «Дюна» предвидела нефтяной кризис, экологический коллапс, мессианские политические движения и глобальную зависимость цивилизации от одного ресурса.</p><p>Пряность мелланж как метафора нефти работает на трёх уровнях: буквальном, символическом и мифологическом. «Дюна» — не фантастика о будущем. Это зеркало настоящего.</p>`},
+{id:17,type:'review',tag:'t-rv',label:'📚 Рецензия',title:'«Мастер и Маргарита»: три уровня текста',author:'ГлубинаТекста',av:'📖',fandom:'Мастер и Маргарита',date:'1 день назад',views:8921,replies:241,likes:1203,hot:true,stars:'★★★★★',rating:5,content:`<p>Большинство читают «Мастер и Маргарита» как сатиру на советский быт. Это примерно как читать «Фауста» из-за сцен с Маргаритой на шабаше.</p><p>Первый уровень — сатирический. Второй — теологический. Третий — металитературный: Мастер — сам Булгаков, рукопись романа внутри романа — это «Мастер и Маргарита». Текст о себе создаёт петлю, в которой рукописи не горят буквально.</p>`},
+{id:18,type:'discuss',tag:'t-ds',label:'⚔️ Дискуссия',title:'Кто написал лучшую антиутопию: Оруэлл или Хаксли?',author:'ДискутируемЗдесь',av:'🗣',fandom:'Антиутопии',date:'5 часов назад',views:18293,replies:743,likes:2891,hot:true,stars:'★★★★☆',rating:4,content:`<p>Оруэлл: сапог на лице навечно. Страх, доносы, двоемыслие. Государство как враг.</p><p>Хаксли: счастливые рабы. Сома, развлечения. Государство как заботливый родитель.</p><p>Мой аргумент: Хаксли точнее описывает 2024 год. Ваш?</p>`},
+{id:19,type:'discuss',tag:'t-ds',label:'⚔️ Дискуссия',title:'Гэндальф vs Дамблдор: финальный разбор',author:'ФэнтезиЭксперт',av:'⚔️',fandom:'Фэнтези',date:'8 часов назад',views:22841,replies:1024,likes:3421,hot:true,stars:'★★★☆☆',rating:3,content:`<p>Гэндальф — Майя, небесный дух в смертном теле. Его ограничения намеренны. Без них он мог бы уничтожить Саурона в одиночку.</p><p>Дамблдор — величайший маг своей эпохи, смертный человек. Победил Гриндевальда. Владел Бузинной палочкой.</p><p>На нейтральной территории — думаю, ничья после долгой беседы за чаем.</p>`},
+{id:20,type:'discuss',tag:'t-ds',label:'⚔️ Дискуссия',title:'Можно ли считать фанфики настоящей литературой?',author:'ЛитТеоретик',av:'📝',fandom:'Метадискуссия',date:'3 дня назад',views:9234,replies:412,likes:1823,hot:true,stars:'★★★★☆',rating:4,content:`<p>«Энеида» — фанфик по «Илиаде». «Широко Саргассово море» — фанфик по «Джейн Эйр». Шекспир брал сюжеты из Плутарха.</p><p>Мой вывод: фанфик — это литература в той же мере, в какой джаз-импровизация — музыка. То есть полностью.</p>`},
+{id:21,type:'poem',tag:'t-po',label:'🎭 Поэзия',title:'«Осколки Средиземья» — цикл из 12 элегий',author:'ЭльфийскийПоэт',av:'✨',fandom:'Властелин Колец',date:'6 часов назад',views:5823,replies:167,likes:2341,hot:true,stars:'★★★★★',rating:5,content:`<p>I. Последний корабль</p><p>Серебряный берег уходит в туман,<br>И Гавань стала дымом, морем, сном.<br>Я помню, как звучал Аман —<br>Не голосом — всем существом.</p><p>II. Лориен после</p><p>Деревья помнят голос Галадриэль —<br>Кора хранит отпечаток пальцев света.<br>Маллорны не цветут. Но в каждой ветке<br>Живёт последнее «прощай», не спетое.</p>`},
+{id:22,type:'poem',tag:'t-po',label:'🎭 Поэзия',title:'Баллада о последнем ведьмаке',author:'СевернийВетер',av:'⚔️',fandom:'Ведьмак',date:'15 часов назад',views:4821,replies:134,likes:1823,hot:false,stars:'★★★★★',rating:5,content:`<p>На дороге у замка сгоревшего<br>Сидит человек с белой гривой волос.<br>Не герой и не чудище — выжившей<br>Задаёт себе вечный вопрос:</p><p>Для чего убивать, если мир не меняется?<br>Для чего защищать, если некому ждать?</p>`},
+{id:23,type:'roleplay',tag:'t-rp',label:'🎲 Ролевая',title:'[Открытая RPG] Корчма «Пьяный Гоблин» — Средиземье, IV Эпоха',author:'ДМ-Арагорн',av:'🎲',fandom:'Властелин Колец',date:'1 час назад',views:2341,replies:89,likes:456,hot:true,stars:'★★★★☆',rating:4,content:`<p>Добро пожаловать в корчму «Пьяный Гоблин» — злачное место на окраине Минас-Тирита.</p><p><strong>Правила:</strong> Играем от третьего лица. Нельзя управлять чужими персонажами. Минимум 2 предложения за ход.</p><p><strong>Сеттинг:</strong> Четвёртая Эпоха, 20 лет после Войны Кольца. Эльфы уходят, люди строятся.</p><p>Кто заходит первым?</p>`},
+{id:24,type:'roleplay',tag:'t-rp',label:'🎲 Ролевая',title:'[Активная RPG] Хогвартс: Тайный Орден — набор учеников',author:'ДиректорMcG',av:'🏰',fandom:'Гарри Поттер',date:'3 часа назад',views:5821,replies:312,likes:1102,hot:true,stars:'★★★★★',rating:5,content:`<p>Действие — 2003 год, через пять лет после событий «Даров смерти». Волдеморт мёртв, но его последователи не успокоились.</p><p><strong>Доступные роли:</strong> Ученики 1-7 курс, преподаватели, аврорат, беглые пожиратели смерти.</p><p>Создание персонажа: Имя, факультет, возраст, специализация, секрет. Пишите в комментарии!</p>`},
+];
+
+const AUTHORS = [
+  {name:'Виктория Морозова',av:'🌙',role:'Мастер пера',works:94,followers:2147,likes:18421,badges:['Автор года','Лучший фанфик','100+ работ'],rating:5},
+  {name:'РомантикPotter',av:'⚡',role:'Хранитель Хогвартса',works:247,followers:5821,likes:38921,badges:['Топ Поттерианец','5★ автор','Ветеран'],rating:5},
+  {name:'КритикИстины',av:'🔍',role:'Литературный критик',works:56,followers:1234,likes:9821,badges:['Лучший критик','Философ форума'],rating:5},
+  {name:'ТолкинЛюбовь',av:'🌿',role:'Хранитель Средиземья',works:78,followers:1892,likes:14231,badges:['Эксперт Толкина','Поэт'],rating:5},
+  {name:'ЭльфийскийПоэт',av:'✨',role:'Певец Средиземья',works:34,followers:1102,likes:8234,badges:['Поэт года','Элегия недели'],rating:5},
+  {name:'ДМ-Арагорн',av:'🎲',role:'Мастер ролевых игр',works:28,followers:892,likes:5821,badges:['Лучший ДМ','Ролевик года'],rating:5},
+  {name:'НеоДостоевский',av:'📚',role:'Реинкарнация классика',works:41,followers:1341,likes:11234,badges:['Философ','Тёмный автор'],rating:4},
+  {name:'ДискутируемЗдесь',av:'🗣',role:'Главный провокатор',works:89,followers:3421,likes:21892,badges:['Топ дискуссии','Viral x10'],rating:4},
+  {name:'КроссоверМастер',av:'⚔️',role:'Создатель миров',works:63,followers:1567,likes:12341,badges:['Лучший кроссовер','Оригинал'],rating:4},
+  {name:'СевернийВетер',av:'❄️',role:'Певец холода',works:22,followers:712,likes:5234,badges:['Поэт','Дебют года'],rating:4},
+  {name:'ТьмаИСвет',av:'🐍',role:'Хозяин теней',works:51,followers:1823,likes:13421,badges:['Тёмный автор','5★'],rating:5},
+  {name:'АнтиутопияЭксперт',av:'👁',role:'Наблюдатель',works:37,followers:1102,likes:8921,badges:['Аналитик','Рецензент'],rating:5},
+];
+
+// ═══ STATE ═══
+let currentPage = 'home';
+let currentFilter = 'all';
+let currentSort = 'new';
+let currentPostType = 'fanfic';
+let genLength = 'short';
+let chatHistory = [];
+let currentMode = 'creative';
+let apiKey = localStorage.getItem('mythoria_api_key') || '';
+let localPosts = JSON.parse(localStorage.getItem('mythoria_posts') || '[]');
+let serverPosts = [];  // ← посты с сервера
+let serverOnline = false;
+let postComments = JSON.parse(localStorage.getItem('mythoria_comments') || '{}');
+let currentPostId = null;
+
+const MODES = {
+  creative:'Ты — талантливый русскоязычный писатель и автор фанфиков. Помогай создавать фанфики, рассказы, стихи с богатым языком и образностью. Пиши только на русском.',
+  analyze:'Ты — литературный критик и аналитик. Глубоко анализируй тексты, раскрывай символизм и подтексты. Только на русском.',
+  quote:'Ты — хранитель великих цитат. Находи и объясняй цитаты из мировой литературы. Только на русском.',
+  continue:'Ты — мастер продолжения чужих историй. Поддерживай стиль оригинала. Только на русском.',
+  char:'Ты — создатель персонажей. Придумывай детальных, живых, противоречивых героев. Только на русском.',
+  discuss:'Ты — интеллектуальный собеседник. Обсуждай литературу остроумно и глубоко. Только на русском.',
+};
+
+// ═══ SERVER API ═══
+// API routes: /api/posts, /api/posts/:id/comments  // пустая строка = тот же хост (работает и локально и через ngrok)
+
+async function pingServer() {
+  try {
+    const r = await fetch('/api/posts', { signal: AbortSignal.timeout(3000) });
+    if (r.ok) {
+      serverOnline = true;
+      serverPosts = await r.json();
+      updateSrvBadge(true);
+      renderHomePosts();
+      renderForumPosts();
+    }
+  } catch(e) {
+    serverOnline = false;
+    updateSrvBadge(false);
+  }
+}
+
+function updateSrvBadge(online) {
+  const b = document.getElementById('srv-badge');
+  const l = document.getElementById('srv-label');
+  if (online) {
+    b.className = 'srv-badge online';
+    l.textContent = 'Сервер онлайн';
+  } else {
+    b.className = 'srv-badge offline';
+    l.textContent = 'Локально';
+  }
+}
+
+async function saveToServer(post) {
+  try {
+    const r = await fetch('/api/posts', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(post)
+    });
+    if (r.ok) {
+      const saved = await r.json();
+      serverPosts.unshift(saved);
+      return true;
+    }
+  } catch(e) {}
+  return false;
+}
+
+// ═══ PARTICLES ═══
+(()=>{
+  const c=document.getElementById('ptcls');
+  for(let i=0;i<35;i++){
+    const p=document.createElement('div');p.className='ptcl';
+    const l=Math.random()*100,dur=9+Math.random()*22,del=Math.random()*22,dx=(Math.random()-.5)*220,sz=1+Math.random()*2.5;
+    p.style.cssText=`left:${l}%;--dx:${dx}px;animation-duration:${dur}s;animation-delay:${del}s;width:${sz}px;height:${sz}px;background:${Math.random()>.5?'var(--gold)':'var(--crimson2)'}`;
+    c.appendChild(p);
+  }
+})();
+
+// ═══ COUNTERS ═══
+function animateCounters(){
+  document.querySelectorAll('[data-count]').forEach(el=>{
+    const t=parseInt(el.dataset.count);let cur=0;
+    const step=t/55,ti=setInterval(()=>{cur+=step;if(cur>=t){cur=t;clearInterval(ti)}el.textContent=Math.floor(cur).toLocaleString('ru');},22);
+  });
+}
+
+// ═══ ALL POSTS (сервер + дефолтные + локальные) ═══
+function getAllPosts(){
+  // Серверные посты идут первыми (они содержат посты от всех пользователей)
+  const srvIds = new Set(serverPosts.map(p => p.id));
+  const localOnly = localPosts.filter(p => !srvIds.has(p.id));
+  return [...serverPosts, ...localOnly, ...POSTS];
+}
+
+// ═══ PAGES ═══
+function showPage(id){
+  document.querySelectorAll('.page').forEach(p=>p.classList.remove('act'));
+  document.querySelectorAll('.nb').forEach(b=>b.classList.remove('act'));
+  document.getElementById('page-'+id).classList.add('act');
+  document.querySelectorAll('.nb').forEach(b=>{
+    const t=b.textContent.trim().toLowerCase();
+    if((id==='home'&&t.includes('главная'))||(id==='forum'&&t.includes('форум'))||
+       (id==='write'&&t.includes('написать'))||(id==='ai'&&t.includes('и'))&&t.includes('генер')||
+       (id==='top'&&t.includes('автор'))||(id==='deploy'&&t.includes('деплой')))b.classList.add('act');
+  });
+  if(id==='home'){animateCounters();renderHomePosts();}
+  if(id==='forum'){renderForumPosts();}
+  if(id==='top'){renderAuthors();}
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+
+function filterAndGo(type){currentFilter=type;showPage('forum');}
+
+// ═══ RENDER POSTS ═══
+function tagClass(t){const m={fanfic:'t-ff',quote:'t-qt',review:'t-rv',discuss:'t-ds',poem:'t-po',roleplay:'t-rp'};return m[t]||'t-ff';}
+function tagLabel(t){const m={fanfic:'📜 Фанфик',quote:'💬 Цитата',review:'📚 Рецензия',discuss:'⚔️ Дискуссия',poem:'🎭 Поэзия',roleplay:'🎲 Ролевая'};return m[t]||'📜';}
+
+function postHTML(p){
+  const idAttr = typeof p.id === 'number' ? p.id : `"${p.id}"`;
+  return `<div class="pr" onclick="openPost(${idAttr})">
+    <div>
+      <span class="ptag ${p.tag||tagClass(p.type)}">${p.label||tagLabel(p.type)}</span>
+      <div class="pr-title">${p.title}</div>
+      <div class="pr-meta"><span class="pr-auth">${p.author}</span> · ${p.fandom||''} · ${p.date||'Только что'}</div>
+    </div>
+    <div class="pr-stats" style="min-width:72px">
+      <div class="pr-rep">${p.replies||0}${p.hot?'<span class="pr-hot">🔥</span>':''}</div>
+      <div>ответов</div>
+      <div style="margin-top:4px">${(p.views||0).toLocaleString('ru')} 👁</div>
+    </div>
+    <div class="pr-stats" style="min-width:55px">
+      <div>★${p.rating||4}</div>
+      <div style="margin-top:3px;color:rgba(244,234,216,.28);font-size:10px">❤ ${p.likes||0}</div>
+    </div>
+  </div>`;
+}
+
+function renderHomePosts(){
+  const el=document.getElementById('home-posts');
+  if(!el)return;
+  el.innerHTML=getAllPosts().slice(0,8).map(postHTML).join('');
+}
+
+function renderForumPosts(){
+  const search=document.getElementById('search-inp')?.value.toLowerCase()||'';
+  const sort=document.getElementById('sort-sel')?.value||'new';
+  let list=getAllPosts().filter(p=>{
+    if(currentFilter!=='all'&&p.type!==currentFilter)return false;
+    if(search&&!p.title.toLowerCase().includes(search)&&!p.author.toLowerCase().includes(search)&&!((p.fandom||'').toLowerCase().includes(search)))return false;
+    return true;
+  });
+  if(sort==='hot')list=list.filter(p=>p.hot).concat(list.filter(p=>!p.hot));
+  else if(sort==='views')list.sort((a,b)=>(b.views||0)-(a.views||0));
+  else if(sort==='rating')list.sort((a,b)=>(b.rating||0)-(a.rating||0));
+  const label=document.getElementById('post-count-label');
+  if(label)label.textContent=list.length+' публикаций';
+  document.getElementById('forum-posts').innerHTML=list.map(postHTML).join('');
+}
+
+function setFilter(type,btn){
+  currentFilter=type;
+  document.querySelectorAll('#filter-pills .pill').forEach(p=>p.classList.remove('sel'));
+  btn.classList.add('sel');
+  renderForumPosts();
+}
+function filterPosts(){renderForumPosts();}
+
+// ═══ OPEN POST MODAL ═══
+function openPost(id){
+  const all=getAllPosts();
+  let p=typeof id==='string'?all.find(x=>x.id===id):all.find(x=>x.id===id)||all[id];
+  if(!p)return;
+  currentPostId=p.id;
+  document.getElementById('m-tag').innerHTML=`<span class="ptag ${p.tag||tagClass(p.type)}">${p.label||tagLabel(p.type)}</span>`;
+  document.getElementById('m-sub').textContent=(p.fandom||'')+' · '+(p.date||'');
+  document.getElementById('m-title').textContent=p.title;
+  document.getElementById('m-av').textContent=p.av||'📜';
+  document.getElementById('m-auth').textContent=p.author;
+  document.getElementById('m-date').textContent=(p.date||'')+' · '+(p.views||0).toLocaleString('ru')+' просмотров';
+  document.getElementById('m-stars').innerHTML=`<div class="stars">★${p.rating||4}/5</div><div style="font-size:11px;color:rgba(244,234,216,.38);margin-top:3px">❤ ${p.likes||0}</div>`;
+  document.getElementById('m-content').innerHTML=typeof p.content==='string'?p.content:'<p>'+p.content+'</p>';
+  renderComments();
+  // Загрузить комментарии с сервера если онлайн
+  if (serverOnline) {
+    loadServerComments(p.id).then(cmts => {
+      if (cmts && cmts.length > 0) {
+        // Смёрджить серверные комментарии с локальными
+        const existing = postComments[currentPostId] || [];
+        const srvFormatted = cmts.map(c => ({ author: c.author, av: c.av || '👤', text: c.text, fromServer: true }));
+        const merged = [...srvFormatted];
+        existing.forEach(lc => { if (!lc.fromServer) merged.push(lc); });
+        postComments[currentPostId] = merged;
+        renderComments();
+      }
+    });
+  }
+  document.getElementById('modal-ov').classList.add('open');
+  document.body.style.overflow='hidden';
+}
+function closeModal(e){if(e.target===document.getElementById('modal-ov'))closeModalD();}
+function closeModalD(){document.getElementById('modal-ov').classList.remove('open');document.body.style.overflow='';}
+function likePost(){showToast('❤ Вы оценили публикацию');}
+function sharePost(){navigator.clipboard?.writeText(location.href+'#post-'+currentPostId);showToast('🔗 Ссылка скопирована');}
+
+// ═══ COMMENTS ═══
+function renderComments(){
+  const list=postComments[currentPostId]||[];
+  const el=document.getElementById('cmt-list');
+  if(!el)return;
+  el.innerHTML=list.length?list.map(c=>`<div class="cmt"><div class="av" style="width:32px;height:32px;font-size:13px">${c.av}</div><div class="cmt-b"><div class="cmt-who">${c.author}</div><div class="cmt-txt">${c.text}</div></div></div>`).join(''):'<div style="color:rgba(244,234,216,.3);font-size:13px;font-style:italic;margin-bottom:12px">Будьте первым, кто оставит комментарий</div>';
+}
+async function addComment(){
+  const inp=document.getElementById('cmt-inp');
+  const nameEl = document.getElementById('w-author');
+  const author = nameEl?.value?.trim() || 'Участник';
+  const text=inp.value.trim();
+  if(!text)return;
+  if(!postComments[currentPostId])postComments[currentPostId]=[];
+  const cmt = {author, av:'👤', text};
+  postComments[currentPostId].push(cmt);
+  localStorage.setItem('mythoria_comments',JSON.stringify(postComments));
+  renderComments();
+  inp.value='';
+  // Сохранить на сервер
+  if (serverOnline) {
+    const ok = await saveCommentToServer(currentPostId, author, text);
+    showToast(ok ? '💬 Комментарий виден всем' : '💬 Комментарий сохранён локально');
+  } else {
+    showToast('💬 Комментарий сохранён локально');
+  }
+}
+
+// ═══ WRITE ═══
+function selType(btn,type){
+  currentPostType=type;
+  document.querySelectorAll('#w-types .pill').forEach(p=>p.classList.remove('sel'));
+  btn.classList.add('sel');
+}
+function toggleGenre(btn){btn.classList.toggle('sel');}
+
+async function publishPost(){
+  const title=document.getElementById('w-title').value.trim();
+  const content=document.getElementById('w-content').value.trim();
+  const author=document.getElementById('w-author')?.value.trim()||'Участник';
+  if(!title){showToast('Добавьте заголовок!');return;}
+  if(!content){showToast('Напишите текст!');return;}
+
+  const postData = {
+    title,
+    content: `<p>${content.replace(/\n\n/g,'</p><p>').replace(/\n/g,'<br>')}</p>`,
+    type: currentPostType,
+    fandom: document.getElementById('w-fandom').value||'Оригинал',
+    author: author,
+    rating: 4
+  };
+
+  // Попытка сохранить на сервер
+  if (serverOnline) {
+    const ok = await saveToServer(postData);
+    if (ok) {
+      showToast('✦ Опубликовано для всех! 🌐');
+      renderHomePosts();
+      renderForumPosts();
+      setTimeout(()=>showPage('forum'), 1500);
+      return;
+    }
+  }
+
+  // Fallback: локальное сохранение
+  const localPost = {
+    ...postData,
+    id: 'local-'+Date.now(),
+    tag: tagClass(currentPostType),
+    label: tagLabel(currentPostType),
+    date: 'Только что',
+    views: 0, replies: 0, likes: 0, hot: false,
+    av: '👤',
+    tags: document.getElementById('w-tags')?.value||'',
+  };
+  localPosts.unshift(localPost);
+  localStorage.setItem('mythoria_posts', JSON.stringify(localPosts));
+  showToast('✦ Сохранено локально (сервер недоступен)');
+  setTimeout(()=>showPage('forum'), 1500);
+}
+
+function aiDraftHelp(){
+  document.getElementById('ai-inp').value='Помоги написать фанфик: '+document.getElementById('w-title').value;
+  showPage('ai');setTimeout(()=>setAiTab('chat',document.querySelector('.ai-tab')),100);
+}
+
+// ═══ AUTHORS ═══
+function renderAuthors(){
+  const el=document.getElementById('auth-grid');if(!el)return;
+  const colors=['var(--gold)','rgba(200,200,200,.7)','#cd7f32'];
+  el.innerHTML=AUTHORS.map((a,i)=>`
+    <div class="auth-card">
+      <div class="auth-top">
+        <div class="auth-rank" style="color:${colors[i]||'rgba(244,234,216,.25)'}">${i+1}</div>
+        <div class="av" style="width:48px;height:48px;font-size:22px">${a.av}</div>
+        <div class="auth-info"><div class="an">${a.name}</div><div class="ar">${a.role}</div></div>
+      </div>
+      <div class="auth-badges">${a.badges.map(b=>`<span class="badge">${b}</span>`).join('')}</div>
+      <div class="auth-stats">
+        <div><div class="as-n">${a.works}</div><div class="as-l">работ</div></div>
+        <div><div class="as-n">${a.followers.toLocaleString('ru')}</div><div class="as-l">подписчиков</div></div>
+        <div><div class="as-n">${a.likes.toLocaleString('ru')}</div><div class="as-l">лайков</div></div>
+      </div>
+    </div>`).join('');
+}
+
+// ═══ AI TABS ═══
+function setAiTab(tab,btn){
+  document.getElementById('ai-gen-panel').style.display=tab==='gen'?'block':'none';
+  document.getElementById('ai-chat-panel').style.display=tab==='chat'?'block':'none';
+  document.querySelectorAll('.ai-hd .ai-tab').forEach(b=>b.classList.remove('act'));
+  if(btn)btn.classList.add('act');
+}
+
+// ═══ GENERATORS ═══
+function saveKey(){
+  apiKey=document.getElementById('api-key').value.trim();
+  if(document.getElementById('api-key-chat'))document.getElementById('api-key-chat').value=apiKey;
+  if(apiKey){localStorage.setItem('mythoria_api_key',apiKey);showToast('🔑 API ключ сохранён');}
+  else showToast('Введите ключ OpenRouter');
+}
+function saveKeyCopy(){
+  apiKey=document.getElementById('api-key-chat').value.trim();
+  if(document.getElementById('api-key'))document.getElementById('api-key').value=apiKey;
+  if(apiKey){localStorage.setItem('mythoria_api_key',apiKey);showToast('🔑 Ключ сохранён');}
+}
+function getKey(){return apiKey||document.getElementById('api-key')?.value.trim()||document.getElementById('api-key-chat')?.value.trim()||'';}
+
+async function callAI(prompt,btnId,outId,textId,hintId){
+  const key=getKey();
+  if(!key){showToast('🔑 Введите API ключ OpenRouter');return;}
+  const btn=document.getElementById(btnId);
+  const out=document.getElementById(outId);
+  const textEl=document.getElementById(textId);
+  btn.disabled=true;btn.textContent='⏳ Генерирую...';
+  out.classList.remove('show');
+  try{
+    const r=await fetch('https://openrouter.ai/api/v1/chat/completions',{
+      method:'POST',
+      headers:{'Authorization':`Bearer ${key}`,'Content-Type':'application/json','HTTP-Referer':'https://mythoria.forum','X-Title':'Mythoria'},
+      body:JSON.stringify({model:'mistralai/mistral-7b-instruct:free',messages:[{role:'user',content:prompt}],max_tokens:800,temperature:.9})
+    });
+    const d=await r.json();
+    if(d.error){textEl.textContent='Ошибка: '+(d.error.message||'Проверьте ключ');out.classList.add('show');return;}
+    const text=d.choices?.[0]?.message?.content||'...';
+    textEl.innerHTML=text.replace(/\n/g,'<br>');
+    out.classList.add('show');
+    if(hintId)document.getElementById(hintId).style.display='block';
+    out.style.position='relative';
+  }catch(e){textEl.textContent='Ошибка соединения. Проверьте ключ и сеть.';out.classList.add('show');}
+  btn.disabled=false;btn.textContent='✦ Готово! Сгенерировать ещё';
+}
+
+function selLen(btn,val){
+  genLength=val;
+  document.querySelectorAll('.gen-body .pills .pill').forEach(p=>{
+    if(p.onclick&&p.onclick.toString().includes('selLen'))p.classList.remove('sel');
+  });
+  btn.classList.add('sel');
+}
+
+const LENGTHS={short:'около 300 слов',medium:'около 600 слов',long:'около 1000 слов'};
+
+function generateFanfic(){
+  const fandom=document.getElementById('gen-fandom').value;
+  const genre=document.getElementById('gen-genre').value;
+  const hero=document.getElementById('gen-hero').value||'главный герой';
+  const plot=document.getElementById('gen-plot').value;
+  const len=LENGTHS[genLength];
+  callAI(`Напиши фанфик по фандому "${fandom}" в жанре "${genre}". Главный герой: ${hero}. ${plot?'Завязка: '+plot+'.':''} Длина: ${len}. Пиши красиво и образно, на русском языке. Начни сразу с текста без предисловий.`,'ff-gen-btn','ff-output','ff-text','ff-hint');
+}
+function generatePoem(){
+  const theme=document.getElementById('gen-poem-theme').value||'одиночество и красота';
+  const form=document.getElementById('gen-poem-form').value;
+  callAI(`Напиши ${form} на тему: "${theme}". Стихотворение должно быть красивым, образным, с глубоким смыслом. На русском языке. Начни сразу с текста.`,'po-gen-btn','po-output','po-text','po-hint');
+}
+function generateQuote(){
+  const theme=document.getElementById('gen-qt-theme').value||'жизнь и смерть';
+  const style=document.getElementById('gen-qt-style').value;
+  callAI(`Напиши 5 оригинальных афоризмов на тему "${theme}" в стиле ${style}. Каждый должен быть глубоким и запоминающимся. На русском. Начни сразу.`,'qt-gen-btn','qt-output','qt-text','qt-hint');
+}
+function generateContinue(){
+  const text=document.getElementById('gen-cont-text').value.trim();
+  if(!text){showToast('Вставьте текст для продолжения');return;}
+  callAI(`Продолжи этот текст в том же стиле. Около 300-500 слов. Начни сразу с продолжения:\n\n${text}`,'ct-gen-btn','ct-output','ct-text','ct-hint');
+}
+function copyOutput(id){
+  const el=document.getElementById(id);
+  const text=el.querySelector('[id$="-text"]')?.innerText||'';
+  navigator.clipboard?.writeText(text);
+  showToast('📋 Скопировано в буфер');
+}
+function publishGenerated(prefix){
+  const text=document.getElementById(prefix+'-text')?.innerText||'';
+  if(!text)return;
+  document.getElementById('w-content').value=text;
+  showPage('write');
+  showToast('✦ Текст перенесён в редактор');
+}
+
+// ═══ CHAT ═══
+function setMode(mode,btn){
+  currentMode=mode;
+  document.querySelectorAll('[id^="mode-btn-"]').forEach(b=>b.classList.remove('act'));
+  if(btn)btn.classList.add('act');
+}
+function useChip(btn){document.getElementById('ai-inp').value=btn.textContent;document.getElementById('ai-inp').focus();}
+function handleKey(e){if(e.key==='Enter'&&!e.shiftKey){e.preventDefault();sendMsg();}}
+function autoResize(el){el.style.height='auto';el.style.height=Math.min(el.scrollHeight,130)+'px';}
+
+function addMsg(role,text){
+  const w=document.getElementById('ai-welcome');if(w)w.remove();
+  const msgs=document.getElementById('ai-msgs');
+  const d=document.createElement('div');d.className='msg '+role;
+  d.innerHTML=`<div class="msg-av">${role==='usr'?'👤':'🔮'}</div><div class="msg-b"><div class="msg-who">${role==='usr'?'Вы':'Оракул'}</div>${text.replace(/\n/g,'<br>')}</div>`;
+  msgs.appendChild(d);msgs.scrollTop=msgs.scrollHeight;
+}
+function addTyping(){
+  const w=document.getElementById('ai-welcome');if(w)w.remove();
+  const msgs=document.getElementById('ai-msgs');
+  const d=document.createElement('div');d.className='msg ai';d.id='typing-d';
+  d.innerHTML=`<div class="msg-av">🔮</div><div class="msg-b"><div class="msg-who">Оракул</div><div class="typing"><div class="td"></div><div class="td"></div><div class="td"></div></div></div>`;
+  msgs.appendChild(d);msgs.scrollTop=msgs.scrollHeight;
+}
+async function sendMsg(){
+  const inp=document.getElementById('ai-inp');
+  const text=inp.value.trim();if(!text)return;
+  const key=getKey();
+  if(!key){showToast('🔑 Введите API ключ OpenRouter');return;}
+  chatHistory.push({role:'user',content:text});
+  addMsg('usr',text);inp.value='';inp.style.height='auto';
+  const btn=document.getElementById('ai-send');btn.disabled=true;
+  addTyping();
+  try{
+    const r=await fetch('https://openrouter.ai/api/v1/chat/completions',{
+      method:'POST',
+      headers:{'Authorization':`Bearer ${key}`,'Content-Type':'application/json','HTTP-Referer':'https://mythoria.forum','X-Title':'Mythoria'},
+      body:JSON.stringify({model:'mistralai/mistral-7b-instruct:free',messages:[{role:'system',content:MODES[currentMode]},...chatHistory],max_tokens:800,temperature:.85})
+    });
+    const d=await r.json();
+    document.getElementById('typing-d')?.remove();
+    if(d.error){addMsg('ai','❌ Ошибка: '+(d.error.message||'Проверьте ключ'));return;}
+    const reply=d.choices?.[0]?.message?.content||'...';
+    chatHistory.push({role:'assistant',content:reply});
+    addMsg('ai',reply);
+  }catch(e){document.getElementById('typing-d')?.remove();addMsg('ai','❌ Ошибка соединения.');}
+  btn.disabled=false;
+}
+
+// ═══ TOAST ═══
+function showToast(msg){
+  const t=document.getElementById('toast');t.textContent=msg;t.classList.add('show');
+  setTimeout(()=>t.classList.remove('show'),3000);
+}
+
+// ═══ ONLINE COUNTER ═══
+setInterval(()=>{
+  const n=3000+Math.floor(Math.random()*500);
+  const el=document.getElementById('online-ct');
+  if(el)el.textContent=n.toLocaleString('ru')+' онлайн';
+},30000);
+
+function openLogin(){showToast('💡 Просто введите имя в форме публикации');}
+
+// ═══ INIT ═══
+if(apiKey){
+  const k=document.getElementById('api-key');if(k)k.value=apiKey;
+  const k2=document.getElementById('api-key-chat');if(k2)k2.value=apiKey;
+}
+renderHomePosts();
+animateCounters();
+
+// Проверить сервер при загрузке и каждые 30 сек
+pingServer();
+setInterval(pingServer, 30000);
+</script>
+</body>
+</html>
